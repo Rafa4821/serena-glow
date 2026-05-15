@@ -1,0 +1,350 @@
+.page { max-width: 1200px; }
+
+/* ── Upload bar ──────────────────────────────────────── */
+.uploadBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.uploadLabel {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.hiddenInput { display: none; }
+
+/* Status pill (converting / uploading) */
+.statusPill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: rgba(183, 164, 199, 0.12);
+  border: 1px solid rgba(183, 164, 199, 0.3);
+  border-radius: var(--radius-full);
+  padding: 0.3rem 0.85rem;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-mauve-soft);
+}
+
+.progressWrap {
+  width: 80px;
+  height: 4px;
+  background: rgba(183, 164, 199, 0.25);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--color-mauve-soft);
+  border-radius: var(--radius-full);
+  transition: width 0.2s;
+}
+
+/* Spinner animation */
+.spinner {
+  animation: spin 1s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Bulk orphan delete */
+.btnOrphanDelete {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: #92400e;
+  background: rgba(146, 64, 14, 0.07);
+  border: 1px solid rgba(146, 64, 14, 0.25);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-left: auto;
+}
+
+.btnOrphanDelete:hover:not(:disabled) { background: #92400e; color: #fff; }
+.btnOrphanDelete:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* WebP auto note */
+.webpNote {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #166534;
+  background: #dcfce7;
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-full);
+}
+
+/* ── Control row (tabs + search) ─────────────────────── */
+.controlRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.filterTabs {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.filterTab {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-full);
+  padding: 0.3rem 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.filterTab:hover { border-color: var(--color-mauve-soft); color: var(--color-mauve-soft); }
+
+.filterTabActive {
+  background: var(--color-mauve-soft);
+  border-color: var(--color-mauve-soft);
+  color: #fff;
+}
+
+.searchInput {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-main);
+  background: var(--color-surface);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-full);
+  padding: 0.45rem 1rem;
+  width: 220px;
+  outline: none;
+  transition: border-color var(--transition-base);
+}
+
+.searchInput:focus { border-color: var(--color-mauve-soft); }
+
+/* ── Layout ──────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* ── Grid wrap (drag-drop target) ────────────────────── */
+.gridWrap {
+  position: relative;
+  min-height: 200px;
+  border-radius: var(--radius-xl);
+  transition: background var(--transition-base), box-shadow var(--transition-base);
+}
+
+.dragOver {
+  background: rgba(183, 164, 199, 0.08);
+  box-shadow: 0 0 0 2px var(--color-mauve-soft);
+}
+
+.dropOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  background: rgba(183, 164, 199, 0.18);
+  border-radius: var(--radius-xl);
+  color: var(--color-mauve-soft);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Grid ────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: var(--space-3);
+}
+
+.cell {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color var(--transition-base), transform var(--transition-base);
+  background: var(--color-white-broken);
+}
+
+.cell:hover { transform: scale(1.02); }
+
+.cellSelected {
+  border-color: var(--color-mauve-soft);
+  box-shadow: 0 0 0 2px rgba(183, 164, 199, 0.35);
+}
+
+.cellOrphan::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(234, 179, 8, 0.55);
+  border-radius: var(--radius-md);
+  pointer-events: none;
+}
+
+.cellImg {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.cellOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-1);
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.webpBadge {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(22, 101, 52, 0.85);
+  color: #fff;
+  padding: 0.1rem 0.3rem;
+  border-radius: var(--radius-sm);
+}
+
+.orphanTag {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(146, 64, 14, 0.85);
+  color: #fff;
+  padding: 0.1rem 0.3rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Detail panel ────────────────────────────────────── */
+.detail {
+  background: var(--color-surface);
+  border: 1px solid var(--admin-border, #e8e6ec);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  position: sticky;
+  top: calc(56px + var(--space-4));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.closeDetail {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color var(--transition-base);
+}
+
+.closeDetail:hover { color: var(--color-text-main); }
+
+.detailImg {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.detailMeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.detailName {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-main);
+  word-break: break-all;
+}
+
+.detailInfo {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.webpBadgeLg {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #dcfce7;
+  color: #166534;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  margin-top: var(--space-1);
+}
+
+.usedBy {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: #166534;
+}
+
+.notUsed {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: #92400e;
+}
+
+.detailActions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .layout { grid-template-columns: 1fr; }
+  .detail { position: static; }
+}
+
+@media (max-width: 600px) {
+  .searchInput { width: 100%; }
+  .controlRow  { flex-direction: column; align-items: flex-start; }
+}

@@ -1,0 +1,137 @@
+.page { max-width: 1100px; }
+
+/* ── Status filter tabs ────────────────────────── */
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--admin-bg, #f8f7fa);
+  border: 1px solid var(--admin-border, #e8e6ec);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  width: fit-content;
+  margin-bottom: var(--space-5);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.tab:hover { color: var(--color-text-main); }
+
+.tabActive {
+  background: var(--color-surface);
+  color: var(--color-text-main);
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.tabCount {
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--admin-border, #e8e6ec);
+  color: var(--color-text-muted);
+  border-radius: 999px;
+  padding: 0.05rem 0.4rem;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.tabActive .tabCount {
+  background: rgba(183,164,199,0.2);
+  color: var(--color-mauve-soft);
+}
+
+/* ── Quick-action buttons ──────────────────────── */
+.btnPublish {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: #166534;
+  background: rgba(22,101,52,0.07);
+  border: 1px solid rgba(22,101,52,0.25);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.btnPublish:hover:not(:disabled) {
+  background: #166534;
+  color: #fff;
+}
+
+.btnArchive {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: #92400e;
+  background: rgba(146,64,14,0.07);
+  border: 1px solid rgba(146,64,14,0.25);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.btnArchive:hover:not(:disabled) {
+  background: #92400e;
+  color: #fff;
+}
+
+.btnFeatured {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  background: none;
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  line-height: 1;
+}
+
+.btnFeatured:hover:not(:disabled) {
+  border-color: var(--color-mauve-soft);
+  color: var(--color-mauve-soft);
+}
+
+.featuredOn {
+  color: var(--color-mauve-soft);
+  border-color: var(--color-mauve-soft);
+  background: rgba(183,164,199,0.1);
+}
+
+/* ── Archived row dimming ─────────────────────── */
+.rowArchived td { opacity: 0.55; }
+.rowArchived:hover td { opacity: 1; }
+
+/* ── Archived status badge ────────────────────── */
+.statusArchived {
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+}
+
+/* ── Sale price display ───────────────────────── */
+.oldPrice {
+  color: var(--color-text-muted);
+  margin-right: var(--space-1);
+  font-size: var(--font-size-xs);
+}

@@ -1,0 +1,37 @@
+.wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-beige-rose);
+  border-radius: inherit;
+}
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+}
+
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity var(--transition-base);
+}
+
+.cover   { object-fit: cover; }
+.contain { object-fit: contain; padding: var(--space-3); }
+
+.hidden  { opacity: 0; }
+.visible { opacity: 1; }
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-light);
+}

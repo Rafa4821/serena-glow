@@ -1,0 +1,74 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ──────────────────────────────────────────────
+    function isSignedIn()    { return request.auth != null; }
+    function isAdmin()       { return isSignedIn() && request.auth.token.role == 'admin'; }
+    function isEditor()      { return isSignedIn() && (request.auth.token.role == 'editor' || request.auth.token.role == 'admin'); }
+    function isValidMessage() {
+      return request.resource.data.keys().hasAll(['name', 'message'])
+          && request.resource.data.name is string
+          && request.resource.data.name.size() <= 120
+          && request.resource.data.message is string
+          && request.resource.data.message.size() <= 2000;
+    }
+
+    // ── Public read collections ───────────────────────────────
+    match /products/{id} {
+      allow read: if resource.data.status == 'published';
+      allow write: if isEditor();
+    }
+
+    match /categories/{id} {
+      allow read: if resource.data.active == true;
+      allow write: if isEditor();
+    }
+
+    match /banners/{id} {
+      allow read: if true;
+      allow write: if isEditor();
+    }
+
+    match /gallery/{id} {
+      allow read: if resource.data.active == true;
+      allow write: if isEditor();
+    }
+
+    match /siteConfig/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── Messages: public write (contact form), admin read ─────
+    match /messages/{id} {
+      allow create: if true;
+      allow read, update, delete: if isEditor();
+    }
+
+    // Media library: only editors can manage
+    match /media/{id} {
+      allow read:   if isEditor();
+      allow create: if isEditor();
+      allow update: if isEditor();
+      allow delete: if isEditor();
+    }
+
+    // Admin user profiles: admin only
+    match /adminUsers/{uid} {
+      allow read, write: if isAdmin();
+    }
+
+    // Audit log: editors can create (append-only), only admin can read
+    match /auditLogs/{id} {
+      allow create: if isEditor();
+      allow read:   if isAdmin();
+      allow update, delete: if false;  // immutable
+    }
+
+    // ── Deny everything else ──────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

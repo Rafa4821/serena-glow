@@ -1,0 +1,182 @@
+.hero {
+  position: relative;
+  min-height: calc(100vh - var(--header-total));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--color-beige-rose);
+  background-image: var(--hero-bg, none);
+  background-size: cover;
+  background-position: center 30%;
+}
+
+.inner {
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(240, 225, 222, 0.80) 0%,
+    rgba(183, 164, 199, 0.45) 60%,
+    rgba(47, 42, 51, 0.10) 100%
+  );
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-20);
+}
+
+.label {
+  display: inline-block;
+  margin-bottom: var(--space-5);
+  animation: fadeInUp 0.6s ease 0.1s both;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 6vw, var(--font-size-4xl));
+  font-weight: 300;
+  color: var(--color-text-main);
+  line-height: 1.1;
+  margin-bottom: var(--space-6);
+  letter-spacing: -0.01em;
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.titleEmphasis {
+  font-style: italic;
+  color: var(--color-mauve-soft);
+  font-weight: 300;
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 2vw, var(--font-size-md));
+  color: var(--color-text-muted);
+  font-weight: 300;
+  line-height: 1.65;
+  margin-bottom: var(--space-10);
+  max-width: 520px;
+  animation: fadeInUp 0.6s ease 0.35s both;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  animation: fadeInUp 0.6s ease 0.5s both;
+}
+
+/* Primary CTA */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--color-mauve-soft);
+  border-radius: var(--radius-full);
+  padding: 0.85rem 2.2rem;
+  text-decoration: none;
+  transition: background var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.btnPrimary:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+/* Secondary CTA */
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-main);
+  background: transparent;
+  border: 1.5px solid rgba(47, 42, 51, 0.35);
+  border-radius: var(--radius-full);
+  padding: 0.85rem 2rem;
+  text-decoration: none;
+  transition: border-color var(--transition-base), background var(--transition-base), transform var(--transition-base);
+}
+
+.btnSecondary:hover {
+  border-color: var(--color-mauve-soft);
+  background: rgba(183,164,199,0.08);
+  color: var(--color-mauve-soft);
+  transform: translateY(-2px);
+}
+
+/* WhatsApp pill — below CTAs */
+.waPill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-text-main);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(47, 42, 51, 0.12);
+  border-radius: var(--radius-full);
+  padding: 0.5rem 1.1rem;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  margin-top: var(--space-6);
+  transition: background var(--transition-base), transform var(--transition-base);
+}
+
+.waPill:hover {
+  background: #fff;
+  transform: translateY(-1px);
+  color: var(--color-text-main);
+}
+
+/* Scroll hint */
+.scrollHint {
+  position: absolute;
+  bottom: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1s ease 1.2s both;
+}
+
+.scrollLine {
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--color-mauve-soft), transparent);
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(1.1); }
+}
+
+@media (max-width: 576px) {
+  .actions { flex-direction: column; align-items: stretch; }
+  .btnPrimary, .btnSecondary { justify-content: center; }
+  .waPill { width: fit-content; }
+}

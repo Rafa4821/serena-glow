@@ -1,0 +1,32 @@
+.header {
+  margin-bottom: var(--space-10);
+}
+
+.left   { text-align: left; }
+.center { text-align: center; }
+.right  { text-align: right; }
+
+.label {
+  display: inline-block;
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 4vw, var(--font-size-2xl));
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-text-main);
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  max-width: 520px;
+  margin-top: var(--space-4);
+}
+
+.center .subtitle { margin-left: auto; margin-right: auto; }

@@ -1,0 +1,123 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.uploadArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 140px;
+  border: 2px dashed var(--color-gray-light);
+  border-radius: var(--radius-lg);
+  background: var(--color-white-broken);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  transition: border-color var(--transition-base), background var(--transition-base);
+}
+
+.uploadArea:hover:not(:disabled) {
+  border-color: var(--color-mauve-soft);
+  background: var(--color-beige-rose);
+}
+
+.uploadArea small {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-light);
+}
+
+.progressWrap {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+}
+
+.progressBar {
+  height: 4px;
+  background: var(--color-mauve-soft);
+  border-radius: var(--radius-full);
+  transition: width 0.2s;
+  width: 0;
+  align-self: flex-start;
+}
+
+.preview {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 200px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.previewImg {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.removeBtn {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background var(--transition-base);
+}
+
+.removeBtn:hover { background: rgba(168, 50, 50, 0.85); }
+
+.changeBtn {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-mauve-soft);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  text-decoration: underline;
+  transition: color var(--transition-base);
+}
+
+.changeBtn:hover:not(:disabled) { color: var(--color-primary-dark); }
+.changeBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.error {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: #b91c1c;
+}
+
+.hiddenInput {
+  display: none;
+}

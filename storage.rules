@@ -1,0 +1,64 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ── Helpers ───────────────────────────────────────────────
+    function isEditor() {
+      return request.auth != null
+          && (request.auth.token.role == 'editor' || request.auth.token.role == 'admin');
+    }
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+    function isUnderLimit() {
+      return request.resource.size <= 5 * 1024 * 1024;
+    }
+
+    // ── Products images ───────────────────────────────────────
+    match /products/{filename} {
+      allow read:  if true;
+      allow write: if isEditor() && isImage() && isUnderLimit();
+      allow delete: if isEditor();
+    }
+
+    // ── Category images ───────────────────────────────────────
+    match /categories/{filename} {
+      allow read:  if true;
+      allow write: if isEditor() && isImage() && isUnderLimit();
+      allow delete: if isEditor();
+    }
+
+    // ── Banner images ─────────────────────────────────────────
+    match /banners/{filename} {
+      allow read:  if true;
+      allow write: if isEditor() && isImage() && isUnderLimit();
+      allow delete: if isEditor();
+    }
+
+    // ── Gallery ───────────────────────────────────────────────
+    match /gallery/{filename} {
+      allow read:  if true;
+      allow write: if isEditor() && isImage() && isUnderLimit();
+      allow delete: if isEditor();
+    }
+
+    // ── General uploads (media library) ──────────────────────
+    match /uploads/{filename} {
+      allow read:   if true;
+      allow write:  if isEditor() && isImage() && isUnderLimit();
+      allow delete: if isEditor();
+    }
+
+    // ── Settings (logo, etc.) ─────────────────────────────────
+    match /settings/{filename} {
+      allow read:   if true;
+      allow write:  if isEditor() && isUnderLimit();
+      allow delete: if isEditor();
+    }
+
+    // ── Deny all else ─────────────────────────────────────────
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

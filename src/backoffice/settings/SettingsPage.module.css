@@ -1,0 +1,38 @@
+.page { max-width: 800px; }
+
+.section {
+  background: var(--color-surface);
+  border: 1px solid var(--admin-border, #e8e6ec);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  margin-bottom: var(--space-6);
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-lg);
+  font-weight: 400;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--admin-border, #e8e6ec);
+}
+
+.fieldsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-4);
+}
+
+@media (max-width: 576px) {
+  .fieldsGrid { grid-template-columns: 1fr; }
+}
