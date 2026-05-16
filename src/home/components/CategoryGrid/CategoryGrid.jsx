@@ -23,17 +23,24 @@ export default function CategoryGrid({ categories = [] }) {
               to={`/catalogo?categoria=${cat.slug}`}
               className={styles.card}
             >
-              <div className={styles.imageWrap}>
+              <div
+                className={styles.imageWrap}
+                style={{ backgroundColor: cat.accentColor ?? undefined }}
+              >
                 {cat.imageUrl ? (
                   <img
                     src={cat.imageUrl}
                     alt={cat.name}
                     className={styles.image}
+                    style={{ objectFit: cat.imageObjectFit || 'cover' }}
                     loading="lazy"
                     decoding="async"
                   />
                 ) : (
-                  <div className={styles.imagePlaceholder}>
+                  <div
+                    className={styles.imagePlaceholder}
+                    style={cat.accentColor ? { background: `linear-gradient(135deg, ${cat.accentColor}55, ${cat.accentColor}aa)` } : undefined}
+                  >
                     <CategoryIcon name={cat.name} />
                   </div>
                 )}

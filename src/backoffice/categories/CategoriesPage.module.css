@@ -1,0 +1,196 @@
+/* ── Table thumbnail ──────────────────── */
+.thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+}
+
+.thumbEmpty {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Product count badge ──────────────── */
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 var(--space-2);
+  border-radius: 99px;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  background: var(--color-gray-light);
+  color: var(--color-text-muted);
+}
+
+.countBadgeHasItems {
+  background: var(--color-mauve-soft);
+  color: #fff;
+}
+
+/* ── Order controls ───────────────────── */
+.orderBtns {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.orderNum {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  min-width: 20px;
+  text-align: center;
+}
+
+.moveBtn {
+  background: none;
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-sm);
+  width: 24px;
+  height: 24px;
+  font-size: 9px;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+  padding: 0;
+}
+
+.moveBtn:hover:not(:disabled) {
+  border-color: var(--color-mauve-soft);
+  color: var(--color-mauve-soft);
+}
+
+.moveBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ── Inline active toggle ─────────────── */
+.toggleBtn {
+  border: none;
+  border-radius: 99px;
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.toggleActive {
+  background: #e6f4ea;
+  color: #1d6f3a;
+}
+
+.toggleActive:hover {
+  background: #d0edda;
+}
+
+.toggleInactive {
+  background: var(--color-gray-light);
+  color: var(--color-text-muted);
+}
+
+.toggleInactive:hover {
+  background: #e8e0ec;
+  color: var(--color-mauve-soft);
+}
+
+/* ── Color picker row ─────────────────── */
+.colorRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.colorPicker {
+  width: 40px;
+  height: 36px;
+  padding: 2px;
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  background: none;
+}
+
+.colorVal {
+  font-family: var(--font-mono, monospace);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* ── Image fit preview ────────────────── */
+.fitOptions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.fitOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  border: 2px solid var(--color-gray-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  transition: border-color var(--transition-base);
+}
+
+.fitOption input[type="radio"] { display: none; }
+
+.fitOption:has(input:checked) {
+  border-color: var(--color-mauve-soft);
+  background: #f9f5fc;
+}
+
+.fitPreview {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.fitOption span {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.fitOption small {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ── Slug hint ────────────────────────── */
+.hint {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+  display: block;
+}

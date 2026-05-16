@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import {
   collection, query, orderBy, onSnapshot,
   addDoc, updateDoc, deleteDoc, doc, serverTimestamp,
-  getDocs, where,
+  getDocs,
 } from 'firebase/firestore'
 import { db } from '@/firebase/firestore'
 import { useImageUpload } from '../shared/hooks/useImageUpload'
@@ -11,12 +11,18 @@ import ConfirmModal from '../shared/components/ConfirmModal'
 import { showToast } from '@/shared/components/ui/Toast'
 import { slugify } from '@/shared/utils/slugify'
 import adminStyles from '../admin.module.css'
+import styles from './CategoriesPage.module.css'
 
-const EMPTY = { name: '', slug: '', tagline: '', description: '', imageUrl: '', imagePath: '', active: true, order: 0 }
+const EMPTY = {
+  name: '', slug: '', tagline: '', description: '',
+  imageUrl: '', imagePath: '', imageObjectFit: 'cover',
+  accentColor: '#B7A4C7', active: true, order: 0,
+}
 
 export default function CategoriesPage() {
   const [categories,    setCategories]    = useState([])
   const [loading,       setLoading]       = useState(true)
+  const [productCounts, setProductCounts] = useState({})
   const [showForm,      setShowForm]      = useState(false)
   const [editing,       setEditing]       = useState(null)
   const [form,          setForm]          = useState(EMPTY)
@@ -31,6 +37,17 @@ export default function CategoriesPage() {
     )
     return unsub
   }, [])
+
+  useEffect(() => {
+    getDocs(collection(db, 'products')).then(snap => {
+      const counts = {}
+      snap.docs.forEach(d => {
+        const s = d.data().categorySlug
+        if (s) counts[s] = (counts[s] || 0) + 1
+      })
+      setProductCounts(counts)
+    }).catch(() => {})
+  }, [categories.length])
 
   function openCreate() { setEditing(null); setForm({ ...EMPTY, order: categories.length }); setShowForm(true) }
   function openEdit(c)  { setEditing(c.id); setForm({ ...EMPTY, ...c }); setShowForm(true) }
@@ -50,10 +67,12 @@ export default function CategoriesPage() {
     setSaving(true)
     const data = {
       name: form.name, slug: form.slug || slugify(form.name),
-      tagline: form.tagline,
-      description: form.description, imageUrl: form.imageUrl,
-      imagePath: form.imagePath, active: form.active,
-      order: Number(form.order), updatedAt: serverTimestamp(),
+      tagline: form.tagline, description: form.description,
+      imageUrl: form.imageUrl, imagePath: form.imagePath,
+      imageObjectFit: form.imageObjectFit || 'cover',
+      accentColor: form.accentColor || '#B7A4C7',
+      active: form.active, order: Number(form.order),
+      updatedAt: serverTimestamp(),
     }
     try {
       if (editing) {
@@ -71,10 +90,33 @@ export default function CategoriesPage() {
     }
   }
 
+  async function toggleActive(cat) {
+    try {
+      await updateDoc(doc(db, 'categories', cat.id), { active: !cat.active, updatedAt: serverTimestamp() })
+    } catch {
+      showToast('Error al cambiar estado.', 'error')
+    }
+  }
+
+  async function moveCategory(cat, dir) {
+    const sorted = [...categories].sort((a, b) => a.order - b.order)
+    const idx    = sorted.findIndex(c => c.id === cat.id)
+    const other  = sorted[idx + dir]
+    if (!other) return
+    try {
+      await Promise.all([
+        updateDoc(doc(db, 'categories', cat.id),   { order: other.order, updatedAt: serverTimestamp() }),
+        updateDoc(doc(db, 'categories', other.id), { order: cat.order,   updatedAt: serverTimestamp() }),
+      ])
+    } catch {
+      showToast('Error al reordenar.', 'error')
+    }
+  }
+
   async function requestDelete(cat) {
-    const prodSnap = await getDocs(query(collection(db, 'products'), where('categorySlug', '==', cat.slug)))
-    if (!prodSnap.empty) {
-      showToast(`Esta categoría tiene ${prodSnap.size} producto(s). Reasignálos antes de eliminar.`, 'warning')
+    const count = productCounts[cat.slug] ?? 0
+    if (count > 0) {
+      showToast(`Esta categoría tiene ${count} producto(s). Reasignálos antes de eliminar.`, 'warning')
       return
     }
     setDeleteConfirm(cat)
@@ -91,12 +133,14 @@ export default function CategoriesPage() {
     }
   }
 
+  const totalProducts = Object.values(productCounts).reduce((a, b) => a + b, 0)
+
   return (
     <div>
       <div className={adminStyles.pageHeader}>
         <div>
           <h1 className={adminStyles.pageTitle}>Categorías</h1>
-          <p className={adminStyles.pageSub}>{categories.length} categorías</p>
+          <p className={adminStyles.pageSub}>{categories.length} categorías · {totalProducts} productos asignados</p>
         </div>
         <button className={adminStyles.btnPrimary} onClick={openCreate}>+ Nueva categoría</button>
       </div>
@@ -108,19 +152,60 @@ export default function CategoriesPage() {
       ) : (
         <div className={adminStyles.tableWrap}>
           <table className={adminStyles.table}>
-            <thead><tr><th>Imagen</th><th>Nombre</th><th>Tagline</th><th>Slug</th><th>Orden</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Tagline</th>
+                <th>Slug</th>
+                <th>Productos</th>
+                <th>Orden</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
             <tbody>
-              {categories.map(c => (
+              {categories.map((c, idx) => (
                 <tr key={c.id}>
-                  <td>{c.imageUrl ? <img src={c.imageUrl} alt={c.name} className={adminStyles.tableThumb} /> : <div className={adminStyles.tableThumbEmpty} />}</td>
+                  <td>
+                    {c.imageUrl ? (
+                      <div className={styles.thumb} style={{ backgroundColor: c.accentColor ?? '#f0e8f0' }}>
+                        <img src={c.imageUrl} alt={c.name} className={styles.thumbImg} style={{ objectFit: c.imageObjectFit || 'cover' }} />
+                      </div>
+                    ) : (
+                      <div className={styles.thumbEmpty} style={{ backgroundColor: c.accentColor ?? '#ede6f0' }}>
+                        <span style={{ fontSize: '1.2rem' }}>✨</span>
+                      </div>
+                    )}
+                  </td>
                   <td><span className={adminStyles.tablePrimary}>{c.name}</span></td>
                   <td style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)' }}>{c.tagline || '—'}</td>
                   <td><code style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{c.slug}</code></td>
-                  <td>{c.order}</td>
-                  <td><span className={c.active ? adminStyles.statusActive : adminStyles.statusInactive}>{c.active ? 'Activa' : 'Inactiva'}</span></td>
+                  <td>
+                    <span className={`${styles.countBadge} ${(productCounts[c.slug] ?? 0) > 0 ? styles.countBadgeHasItems : ''}`}>
+                      {productCounts[c.slug] ?? 0}
+                    </span>
+                  </td>
+                  <td>
+                    <div className={styles.orderBtns}>
+                      <button className={styles.moveBtn} onClick={() => moveCategory(c, -1)} disabled={idx === 0} title="Subir">▲</button>
+                      <span className={styles.orderNum}>{c.order}</span>
+                      <button className={styles.moveBtn} onClick={() => moveCategory(c, 1)} disabled={idx === categories.length - 1} title="Bajar">▼</button>
+                    </div>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => toggleActive(c)}
+                      className={`${styles.toggleBtn} ${c.active ? styles.toggleActive : styles.toggleInactive}`}
+                      title={c.active ? 'Clic para desactivar' : 'Clic para activar'}
+                    >
+                      {c.active ? 'Activa' : 'Inactiva'}
+                    </button>
+                  </td>
                   <td>
                     <div className={adminStyles.actions}>
                       <button className={adminStyles.btnEdit} onClick={() => openEdit(c)}>Editar</button>
+                      <a href={`/catalogo?categoria=${c.slug}`} target="_blank" rel="noopener noreferrer" className={adminStyles.btnEdit} title="Ver en el sitio">Ver ↗</a>
                       <button className={adminStyles.btnDelete} onClick={() => requestDelete(c)}>Eliminar</button>
                     </div>
                   </td>
@@ -148,6 +233,7 @@ export default function CategoriesPage() {
                   <div className={adminStyles.field}>
                     <label className={adminStyles.label}>Slug</label>
                     <input name="slug" value={form.slug} onChange={handleField} className={adminStyles.input} />
+                    <span className={styles.hint}>URL: /catalogo?categoria={form.slug || '…'}</span>
                   </div>
                   <div className={adminStyles.field}>
                     <label className={adminStyles.label}>Tagline</label>
@@ -161,6 +247,13 @@ export default function CategoriesPage() {
                     <div className={adminStyles.field}>
                       <label className={adminStyles.label}>Orden</label>
                       <input name="order" type="number" min="0" value={form.order} onChange={handleField} className={adminStyles.input} />
+                    </div>
+                    <div className={adminStyles.field}>
+                      <label className={adminStyles.label}>Color de acento</label>
+                      <div className={styles.colorRow}>
+                        <input name="accentColor" type="color" value={form.accentColor || '#B7A4C7'} onChange={handleField} className={styles.colorPicker} />
+                        <span className={styles.colorVal}>{form.accentColor || '#B7A4C7'}</span>
+                      </div>
                     </div>
                   </div>
                   <label className={adminStyles.checkLabel}>
@@ -176,6 +269,29 @@ export default function CategoriesPage() {
                     storagePath={form.imagePath || null}
                     onChange={r => setForm(f => ({ ...f, imageUrl: r?.url ?? '', imagePath: r?.path ?? '' }))}
                   />
+                  {form.imageUrl && (
+                    <div className={adminStyles.field}>
+                      <label className={adminStyles.label}>Modo de imagen</label>
+                      <div className={styles.fitOptions}>
+                        <label className={styles.fitOption}>
+                          <input type="radio" name="imageObjectFit" value="cover" checked={(form.imageObjectFit || 'cover') === 'cover'} onChange={handleField} />
+                          <div className={styles.fitPreview} style={{ backgroundColor: form.accentColor ?? '#ede6f0' }}>
+                            <img src={form.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          </div>
+                          <span>Cover</span>
+                          <small>Recorta y llena (fotos)</small>
+                        </label>
+                        <label className={styles.fitOption}>
+                          <input type="radio" name="imageObjectFit" value="contain" checked={form.imageObjectFit === 'contain'} onChange={handleField} />
+                          <div className={styles.fitPreview} style={{ backgroundColor: form.accentColor ?? '#ede6f0' }}>
+                            <img src={form.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '8px' }} />
+                          </div>
+                          <span>Contain</span>
+                          <small>Muestra completa (logos)</small>
+                        </label>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className={adminStyles.formFooter}>

@@ -40,8 +40,9 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 240px));
   gap: var(--space-6);
+  justify-content: center;
 }
 
 .card {
@@ -123,7 +124,8 @@
 
 @media (max-width: 576px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 200px));
     gap: var(--space-4);
+    justify-content: center;
   }
 }

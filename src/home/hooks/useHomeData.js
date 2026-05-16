@@ -36,7 +36,11 @@ const MOCK = {
 }
 
 export function useHomeData() {
-  const [data,    setData]    = useState({ heroBanner: null, categories: [], featuredProducts: [], emotionalBanner: null, gallery: [] })
+  const [data,    setData]    = useState({
+    heroBanner: null, emotionalBanner: null,
+    homeMidBanner: null, homePreFooterBanner: null,
+    categories: [], featuredProducts: [], gallery: [],
+  })
   const [loading, setLoading] = useState(true)
   const [error,   setError]   = useState(null)
 
@@ -45,9 +49,15 @@ export function useHomeData() {
 
     async function fetchAll() {
       try {
-        const [heroBanner, emotionalBanner, categories, featuredResult, gallery] = await Promise.all([
+        const [
+          heroBanner, emotionalBanner,
+          homeMidBanner, homePreFooterBanner,
+          categories, featuredResult, gallery,
+        ] = await Promise.all([
           bannerService.getById('hero').catch(() => null),
           bannerService.getById('emotional').catch(() => null),
+          bannerService.getById('home-mid').catch(() => null),
+          bannerService.getById('home-pre-footer').catch(() => null),
           categoryService.getActive().catch(() => []),
           productService.getFeatured(8).catch(() => []),
           galleryService.getActive(9).catch(() => []),
@@ -55,11 +65,13 @@ export function useHomeData() {
 
         if (!cancelled) {
           setData({
-            heroBanner:       heroBanner      ?? MOCK.heroBanner,
-            emotionalBanner:  emotionalBanner ?? MOCK.emotionalBanner,
-            categories:       categories.length      ? categories      : MOCK.categories,
-            featuredProducts: featuredResult.length  ? featuredResult  : MOCK.featuredProducts,
-            gallery:          gallery,
+            heroBanner:          heroBanner      ?? MOCK.heroBanner,
+            emotionalBanner:     emotionalBanner ?? MOCK.emotionalBanner,
+            homeMidBanner:       homeMidBanner,
+            homePreFooterBanner: homePreFooterBanner,
+            categories:          categories.length     ? categories     : MOCK.categories,
+            featuredProducts:    featuredResult.length ? featuredResult : MOCK.featuredProducts,
+            gallery,
           })
           setLoading(false)
         }

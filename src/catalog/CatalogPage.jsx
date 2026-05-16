@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import PublicLayout from '@/shared/components/PublicLayout'
 import ProductCard from './components/ProductCard'
+import BannerBlock from '@/shared/components/BannerBlock/BannerBlock'
 import { useCatalog } from './hooks/useCatalog'
 import { useSiteSettings } from '@/app/providers/SiteSettingsProvider'
+import { bannerService } from '@/firebase/services/bannerService'
 import styles from './CatalogPage.module.css'
 
 const SORT_OPTIONS = [
@@ -17,6 +19,11 @@ export default function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const activeCategory = searchParams.get('categoria') ?? ''
   const { settings } = useSiteSettings()
+
+  const [catalogTopBanner, setCatalogTopBanner] = useState(null)
+  useEffect(() => {
+    bannerService.getById('catalog-top').then(b => setCatalogTopBanner(b)).catch(() => {})
+  }, [])
 
   const [search, setSearch] = useState('')
   const [sort,   setSort]   = useState('order')
@@ -37,6 +44,9 @@ export default function CatalogPage() {
 
   return (
     <PublicLayout>
+      {catalogTopBanner && catalogTopBanner.active !== false && (
+        <BannerBlock banner={catalogTopBanner} />
+      )}
       <div className={styles.page}>
         {/* Header */}
         <div className={styles.pageHeader}>
