@@ -22,11 +22,9 @@ const BackofficeMedia      = lazy(() => import('@/backoffice/media/MediaPage'))
 const LoginPage            = lazy(() => import('@/backoffice/auth/LoginPage'))
 
 function RequireAdmin({ children }) {
-  const { user, role, loading } = useAuth()
+  const { user, loading } = useAuth()
   if (loading) return <PageSpinner />
   if (!user)   return <Navigate to="/admin/login" replace />
-  const isDev = import.meta.env.DEV
-  if (!isDev && role !== 'admin' && role !== 'editor') return <Navigate to="/" replace />
   return children
 }
 
