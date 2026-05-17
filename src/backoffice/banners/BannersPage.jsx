@@ -6,6 +6,7 @@ import LinkPicker from '../shared/components/LinkPicker'
 import { showToast } from '@/shared/components/ui/Toast'
 import adminStyles from '../admin.module.css'
 import styles from './BannersPage.module.css'
+import FieldHint from '../help/FieldHint'
 
 const SLOTS = [
   { id: 'hero',            label: 'Hero — Inicio (principal)',     page: 'Inicio',   defaultHeight: '100vh' },
@@ -188,7 +189,7 @@ export default function BannersPage() {
                   {/* ── Video URL ── */}
                   {type === 'video' && (
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>URL del Video</label>
+                      <label className={adminStyles.label}>URL del Video <FieldHint text="URL de YouTube (youtube.com/watch?v=...) o archivo de video directo (.mp4). La imagen de fondo actúa como carátula mientras el video carga." /></label>
                       <input
                         type="text"
                         value={d.videoUrl ?? ''}
@@ -204,7 +205,7 @@ export default function BannersPage() {
                   {type !== 'carousel' && (
                     <>
                       <div className={adminStyles.field}>
-                        <label className={adminStyles.label}>Etiqueta (sobre el título)</label>
+                        <label className={adminStyles.label}>Etiqueta (sobre el título) <FieldHint text="Texto pequeño de acento que aparece SOBRE el título principal. Se muestra en letras pequeñas con estilo serif. Ej: 'Nueva colección', 'Edición limitada'. Puedes dejarlo vacío." /></label>
                         <input
                           type="text"
                           value={d.label ?? ''}
@@ -215,7 +216,7 @@ export default function BannersPage() {
                       </div>
 
                       <div className={adminStyles.field}>
-                        <label className={adminStyles.label}>Título</label>
+                        <label className={adminStyles.label}>Título <FieldHint text="Titular principal del banner. Aparece en grande sobre la imagen. Usa Enter para forzar un salto de línea. La última palabra de cada línea se muestra automáticamente en cursiva." /></label>
                         <textarea
                           value={d.title ?? ''}
                           onChange={e => setField(slot.id, 'title', e.target.value)}
@@ -227,7 +228,7 @@ export default function BannersPage() {
                       </div>
 
                       <div className={adminStyles.field}>
-                        <label className={adminStyles.label}>Subtítulo</label>
+                        <label className={adminStyles.label}>Subtítulo <FieldHint text="Texto descriptivo debajo del título, en letra más pequeña. Ideal para una frase corta que complemente el mensaje principal. Opcional." /></label>
                         <textarea
                           value={d.subtitle ?? ''}
                           onChange={e => setField(slot.id, 'subtitle', e.target.value)}
@@ -238,7 +239,7 @@ export default function BannersPage() {
                       </div>
 
                       <div className={adminStyles.field}>
-                        <label className={adminStyles.label}>Botones (máx. 3)</label>
+                        <label className={adminStyles.label}>Botones (máx. 3) <FieldHint text="Hasta 3 botones de llamada a la acción. Cada uno tiene: texto (lo que dice el botón), destino (a qué página va) y estilo. Principal = fondo sólido. Secundario = borde con color. Outline = solo borde transparente." /></label>
                         <div className={styles.btnEditor}>
                           {btns.map((btn, i) => (
                             <div key={i} className={styles.btnRow}>
@@ -381,7 +382,7 @@ export default function BannersPage() {
                     <p className={styles.styleTitle}>Estilo</p>
 
                     <div className={styles.styleRow}>
-                      <span className={styles.styleLabel}>Altura</span>
+                      <span className={styles.styleLabel}>Altura <FieldHint text="Altura del banner. 100vh = ocupa toda la pantalla (ideal para el hero principal). 70vh/50vh/40vh para banners más compactos en otras secciones." /></span>
                       <div className={styles.radioGroup}>
                         {HEIGHT_OPTIONS.map(h => (
                           <label key={h} className={styles.radioLabel}>
@@ -399,7 +400,7 @@ export default function BannersPage() {
                     </div>
 
                     <div className={styles.styleRow}>
-                      <span className={styles.styleLabel}>Alineación</span>
+                      <span className={styles.styleLabel}>Alineación <FieldHint text="Posición horizontal del texto y botones sobre la imagen. Izquierda es la más común. Centro funciona bien para mensajes cortos e impactantes." /></span>
                       <div className={styles.radioGroup}>
                         {ALIGN_OPTIONS.map(o => (
                           <label key={o.value} className={styles.radioLabel}>
@@ -417,7 +418,7 @@ export default function BannersPage() {
                     </div>
 
                     <div className={styles.styleRow}>
-                      <span className={styles.styleLabel}>Texto</span>
+                      <span className={styles.styleLabel}>Texto <FieldHint text="Color del texto sobre la imagen. Claro (blanco) para imágenes oscuras. Oscuro (negro) para imágenes claras o cuando el texto no se lee bien en blanco." /></span>
                       <div className={styles.radioGroup}>
                         {COLOR_OPTIONS.map(o => (
                           <label key={o.value} className={styles.radioLabel}>
@@ -435,7 +436,7 @@ export default function BannersPage() {
                     </div>
 
                     <div className={styles.styleRow}>
-                      <span className={styles.styleLabel}>Overlay</span>
+                      <span className={styles.styleLabel}>Overlay <FieldHint text="Capa semitransparente oscura que se aplica sobre la imagen para mejorar la legibilidad del texto. 0% = sin capa, imagen original. 30% es un buen punto de partida. Aumentalo si el texto no se lee bien." /></span>
                       <div className={styles.sliderWrap}>
                         <input
                           type="range"

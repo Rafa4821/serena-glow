@@ -201,3 +201,14 @@ h1, h2, h3, h4, h5, h6 {
 .page-offset {
   padding-top: var(--header-total);
 }
+
+/* ─── Responsive section spacing ───────────────────────── */
+@media (max-width: 768px) {
+  .section-padding    { padding: var(--space-12) 0; }
+  .section-padding-sm { padding: var(--space-8)  0; }
+}
+
+@media (max-width: 576px) {
+  .section-padding    { padding: var(--space-10) 0; }
+  .section-padding-sm { padding: var(--space-6)  0; }
+}

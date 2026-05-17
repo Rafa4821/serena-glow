@@ -11,6 +11,7 @@ import ConfirmModal from '../shared/components/ConfirmModal'
 import { showToast } from '@/shared/components/ui/Toast'
 import { slugify } from '@/shared/utils/slugify'
 import adminStyles from '../admin.module.css'
+import FieldHint from '../help/FieldHint'
 import styles from './CategoriesPage.module.css'
 
 const EMPTY = {
@@ -227,29 +228,29 @@ export default function CategoriesPage() {
               <div className={adminStyles.formGrid}>
                 <div className={adminStyles.formCol}>
                   <div className={adminStyles.field}>
-                    <label className={adminStyles.label}>Nombre *</label>
+                    <label className={adminStyles.label}>Nombre * <FieldHint text="Nombre de la categoría. Aparece en la grilla de inicio, como filtro del catálogo y como título de la tarjeta. Usa nombres cortos y descriptivos: 'Maquillaje', 'Perfumes', 'Body Care'." /></label>
                     <input name="name" value={form.name} onChange={handleField} required className={adminStyles.input} />
                   </div>
                   <div className={adminStyles.field}>
-                    <label className={adminStyles.label}>Slug</label>
+                    <label className={adminStyles.label}>Slug <FieldHint text="Identificador único de la URL. Se genera automáticamente desde el nombre. Define el filtro del catálogo: /catalogo?categoria=body-care. Evita cambiarlo después de publicar." /></label>
                     <input name="slug" value={form.slug} onChange={handleField} className={adminStyles.input} />
                     <span className={styles.hint}>URL: /catalogo?categoria={form.slug || '…'}</span>
                   </div>
                   <div className={adminStyles.field}>
-                    <label className={adminStyles.label}>Tagline</label>
+                    <label className={adminStyles.label}>Tagline <FieldHint text="Texto corto que aparece DEBAJO del nombre en la tarjeta de categoría en la home. Le da personalidad y contexto. Ej: 'Para tu rutina diaria', 'Aromas que te definen'." /></label>
                     <input name="tagline" value={form.tagline} onChange={handleField} className={adminStyles.input} placeholder="Ej: Cuida tu piel cada día" />
                   </div>
                   <div className={adminStyles.field}>
-                    <label className={adminStyles.label}>Descripción</label>
+                    <label className={adminStyles.label}>Descripción <FieldHint text="Descripción extendida de la categoría. Puede usarse para SEO o mostrarse como texto introductorio cuando se filtra por esta categoría en el catálogo." /></label>
                     <textarea name="description" value={form.description} onChange={handleField} rows={3} className={adminStyles.textarea} />
                   </div>
                   <div className={adminStyles.row}>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Orden</label>
+                      <label className={adminStyles.label}>Orden <FieldHint text="Define la posición de la categoría en la grilla de inicio. Las categorías con menor número aparecen primero. Usar saltos de 10 (10, 20, 30...) facilita reordenar." /></label>
                       <input name="order" type="number" min="0" value={form.order} onChange={handleField} className={adminStyles.input} />
                     </div>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Color de acento</label>
+                      <label className={adminStyles.label}>Color de acento <FieldHint text="Color de fondo de la tarjeta cuando no hay imagen, o como capa de color de marca sobre la imagen. Usa el selector para elegir un tono que combine con tu paleta." /></label>
                       <div className={styles.colorRow}>
                         <input name="accentColor" type="color" value={form.accentColor || '#B7A4C7'} onChange={handleField} className={styles.colorPicker} />
                         <span className={styles.colorVal}>{form.accentColor || '#B7A4C7'}</span>
@@ -271,7 +272,7 @@ export default function CategoriesPage() {
                   />
                   {form.imageUrl && (
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Modo de imagen</label>
+                      <label className={adminStyles.label}>Modo de imagen <FieldHint text="Cover: recorta y llena el área de la tarjeta (ideal para fotos de productos o ambientes). Contain: muestra la imagen completa sin recortar (ideal para logos o gráficos con fondo transparente)." /></label>
                       <div className={styles.fitOptions}>
                         <label className={styles.fitOption}>
                           <input type="radio" name="imageObjectFit" value="cover" checked={(form.imageObjectFit || 'cover') === 'cover'} onChange={handleField} />

@@ -159,7 +159,7 @@ export default function SettingsPage() {
             </div>
             <div className={`${adminStyles.field} ${styles.fullWidth}`}>
               <label className={adminStyles.label}>Subtítulo del hero</label>
-              <textarea value={f('heroSubtitle')} onChange={e => set('heroSubtitle', e.target.value)} rows={2} className={adminStyles.textarea} placeholder="Cosméticos, perfumes, body care y trajes de baño pensados para vos." />
+              <textarea value={f('heroSubtitle')} onChange={e => set('heroSubtitle', e.target.value)} rows={2} className={adminStyles.textarea} placeholder="Cosméticos, perfumes, body care y trajes de baño pensados para ti." />
             </div>
             <div className={adminStyles.field}>
               <label className={adminStyles.label}>Botón principal (CTA)</label>
@@ -246,11 +246,10 @@ export default function SettingsPage() {
           <div className={styles.fieldsGrid}>
             <div className={adminStyles.field}>
               <label className={adminStyles.label}>Moneda</label>
-              <select value={f('currency') || '$'} onChange={e => set('currency', e.target.value)} className={adminStyles.select}>
-                <option value="$">$ (Peso argentino)</option>
-                <option value="US$">US$ (Dólar)</option>
+              <select value={f('currency') || 'Bs.'} onChange={e => set('currency', e.target.value)} className={adminStyles.select}>
+                <option value="Bs.">Bs. (Bolívar venezolano)</option>
+                <option value="USD">USD (Dólar americano)</option>
                 <option value="€">€ (Euro)</option>
-                <option value="R$">R$ (Real)</option>
               </select>
             </div>
             <div className={adminStyles.field}>
@@ -272,7 +271,7 @@ export default function SettingsPage() {
             </div>
             <div className={adminStyles.field}>
               <label className={adminStyles.label}>Subtítulo del catálogo</label>
-              <input type="text" value={f('catalogSubtitle')} onChange={e => set('catalogSubtitle', e.target.value)} className={adminStyles.input} placeholder="Descubrí toda nuestra colección" />
+              <input type="text" value={f('catalogSubtitle')} onChange={e => set('catalogSubtitle', e.target.value)} className={adminStyles.input} placeholder="Descubre toda nuestra colección" />
             </div>
             <div className={`${adminStyles.field} ${styles.fullWidth}`}>
               <label className={adminStyles.label}>Mostrar precios en el catálogo</label>
@@ -297,7 +296,7 @@ export default function SettingsPage() {
             </div>
             <div className={`${adminStyles.field} ${styles.fullWidth}`}>
               <label className={adminStyles.label}>Descripción SEO (meta description)</label>
-              <textarea value={f('metaDescription')} onChange={e => set('metaDescription', e.target.value)} rows={3} className={adminStyles.textarea} placeholder="Descubrí cosméticos, perfumes y body care de calidad premium." maxLength={160} />
+              <textarea value={f('metaDescription')} onChange={e => set('metaDescription', e.target.value)} rows={3} className={adminStyles.textarea} placeholder="Descubre cosméticos, perfumes y body care de calidad premium." maxLength={160} />
               <Hint text={`${(f('metaDescription') || '').length}/160 caracteres recomendados.`} />
             </div>
             <div className={`${adminStyles.field} ${styles.fullWidth}`}>
@@ -401,7 +400,7 @@ function AdvancedTab({ settings, set, fb, f, onSave, saving }) {
               onChange={e => set('maintenanceMessage', e.target.value)}
               rows={3}
               className={adminStyles.textarea}
-              placeholder="Estamos trabajando para vos. Volvemos pronto."
+              placeholder="Estamos trabajando para ti. Volvemos pronto."
             />
           </div>
         )}
@@ -416,7 +415,7 @@ function AdvancedTab({ settings, set, fb, f, onSave, saving }) {
             </h3>
             <p className={styles.dangerDesc}>
               Muestra el botón <strong>?</strong> en la barra superior con guías contextuales por módulo.
-              Podés abrirlo en cualquier pantalla del panel para ver explicaciones detalladas.
+              Puedes abrirlo en cualquier pantalla del panel para ver explicaciones detalladas.
             </p>
           </div>
           <Toggle checked={helpEnabled} onChange={toggleHelp} />

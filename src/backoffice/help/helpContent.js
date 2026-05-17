@@ -10,7 +10,7 @@ export const HELP_CONTENT = {
       },
       {
         heading: 'Barra lateral',
-        text: 'Usá el menú de la izquierda para navegar entre módulos. Podés colapsarlo con el botón ‹ para ganar espacio en pantallas pequeñas.',
+        text: 'Usa el menú de la izquierda para navegar entre módulos. Puedes colapsarlo con el botón ‹ para ganar espacio en pantallas pequeñas.',
       },
       {
         heading: 'Ver sitio',
@@ -18,7 +18,7 @@ export const HELP_CONTENT = {
       },
       {
         heading: 'Sesión',
-        text: 'El botón "Salir" cierra tu sesión de administrador. Si cerrás el navegador sin cerrar sesión, Firebase mantiene la sesión activa por seguridad.',
+        text: 'El botón "Salir" cierra tu sesión de administrador. Si cierras el navegador sin cerrar sesión, Firebase mantiene la sesión activa por seguridad.',
       },
     ],
   },
@@ -26,7 +26,7 @@ export const HELP_CONTENT = {
   '/admin/productos': {
     title: 'Productos',
     icon: '📦',
-    intro: 'Desde aquí gestionás todo el catálogo: crear, editar, archivar y ordenar productos. Los cambios se reflejan en el sitio de forma inmediata.',
+    intro: 'Desde aquí gestionas todo el catálogo: crear, editar, archivar y ordenar productos. Los cambios se reflejan en el sitio de forma inmediata.',
     items: [
       {
         heading: 'Estados del producto',
@@ -34,11 +34,11 @@ export const HELP_CONTENT = {
       },
       {
         heading: 'Precio y precio de oferta',
-        text: 'Si completás "Precio oferta", el catálogo mostrará el precio original tachado junto al precio de oferta resaltado. Dejá el campo vacío cuando no haya promoción activa.',
+        text: 'Si completas "Precio oferta", el catálogo mostrará el precio original tachado junto al precio de oferta resaltado. Deja el campo vacío cuando no haya promoción activa.',
       },
       {
         heading: 'Stock',
-        text: 'Número de unidades disponibles. Cuando llega a 0 el producto se muestra como "Sin stock" en el catálogo. En Configuración > Tienda podés definir a partir de qué número se muestra la alerta de stock bajo en este panel.',
+        text: 'Número de unidades disponibles. Cuando llega a 0 el producto se muestra como "Sin stock" en el catálogo. En Configuración > Tienda puedes definir a partir de qué número se muestra la alerta de stock bajo en este panel.',
       },
       {
         heading: 'Etiquetas (tags)',
@@ -50,15 +50,15 @@ export const HELP_CONTENT = {
       },
       {
         heading: 'Galería de imágenes',
-        text: 'Fotos adicionales del producto que aparecen como miniaturas en la página de detalle. Podés subir varias a la vez, reordenarlas con las flechas ◀ ▶ y elegir imágenes de la biblioteca de medios.',
+        text: 'Fotos adicionales del producto que aparecen como miniaturas en la página de detalle. Puedes subir varias a la vez, reordenarlas con las flechas ◀ ▶ y elegir imágenes de la biblioteca de medios.',
       },
       {
         heading: 'Descripción',
-        text: 'Texto visible en la página de detalle del producto. Podés incluir ingredientes, instrucciones de uso, beneficios, etc.',
+        text: 'Texto visible en la página de detalle del producto. Puedes incluir ingredientes, instrucciones de uso, beneficios, etc.',
       },
       {
         heading: 'Slug (URL)',
-        text: 'Se genera automáticamente desde el nombre. Define la URL del producto, ej: /producto/crema-hidratante. Solo modificalo si es necesario; evitá cambiarlo después de publicar para no romper links.',
+        text: 'Se genera automáticamente desde el nombre. Define la URL del producto, ej: /producto/crema-hidratante. Solo modifícalo si es necesario; evita cambiarlo después de publicar para no romper links.',
       },
     ],
   },
@@ -70,7 +70,7 @@ export const HELP_CONTENT = {
     items: [
       {
         heading: 'Nombre',
-        text: 'Nombre visible en el catálogo y en la grilla de inicio. Usá nombres cortos y descriptivos: "Maquillaje", "Perfumes", "Body Care".',
+        text: 'Nombre visible en el catálogo y en la grilla de inicio. Usa nombres cortos y descriptivos: "Maquillaje", "Perfumes", "Body Care".',
       },
       {
         heading: 'Tagline',
@@ -106,7 +106,7 @@ export const HELP_CONTENT = {
       },
       {
         heading: 'Botón CTA',
-        text: 'Texto del botón de llamada a la acción y la URL a la que lleva. Podés vincular a una categoría (/catalogo?categoria=perfumes), a un producto (/producto/nombre) o a cualquier página.',
+        text: 'Texto del botón de llamada a la acción y la URL a la que lleva. Puedes vincular a una categoría (/catalogo?categoria=perfumes), a un producto (/producto/nombre) o a cualquier página.',
       },
       {
         heading: 'Activo / Inactivo',
@@ -122,19 +122,19 @@ export const HELP_CONTENT = {
   '/admin/media': {
     title: 'Biblioteca de medios',
     icon: '🖼️',
-    intro: 'Centralizá todas las imágenes del sitio. Desde aquí podés subir, organizar y reutilizar archivos en productos, banners y más.',
+    intro: 'Centraliza todas las imágenes del sitio. Desde aquí puedes subir, organizar y reutilizar archivos en productos, banners y más.',
     items: [
       {
         heading: 'Subir imágenes',
-        text: 'Arrastrá archivos al área de carga o hacé clic en el botón. Se admiten JPG, PNG, WebP y GIF. Peso máximo recomendado: 2 MB por imagen para asegurar velocidad de carga.',
+        text: 'Arrastra archivos al área de carga o haz clic en el botón. Se admiten JPG, PNG, WebP y GIF. Peso máximo recomendado: 2 MB por imagen para asegurar velocidad de carga.',
       },
       {
         heading: 'Carpetas',
-        text: 'Organizá las imágenes en carpetas: "productos", "banners", "brand", etc. Filtrá por carpeta usando el selector en la barra superior. Ayuda a encontrar archivos rápido cuando la biblioteca crece.',
+        text: 'Organiza las imágenes en carpetas: "productos", "banners", "brand", etc. Filtra por carpeta usando el selector en la barra superior. Ayuda a encontrar archivos rápido cuando la biblioteca crece.',
       },
       {
         heading: 'Renombrar',
-        text: 'Hacé clic en el nombre debajo de cualquier imagen para editarlo. El nombre del archivo se usa también como texto alternativo (alt text) para los buscadores y lectores de pantalla.',
+        text: 'Haz clic en el nombre debajo de cualquier imagen para editarlo. El nombre del archivo se usa también como texto alternativo (alt text) para los buscadores y lectores de pantalla.',
       },
       {
         heading: 'Exportar a CSV / Excel',
@@ -142,7 +142,7 @@ export const HELP_CONTENT = {
       },
       {
         heading: 'Imágenes huérfanas',
-        text: 'Son archivos subidos al almacenamiento que no están referenciados en ningún producto, banner ni categoría. Podés identificarlas y eliminarlas para liberar espacio en Firebase Storage.',
+        text: 'Son archivos subidos al almacenamiento que no están referenciados en ningún producto, banner ni categoría. Puedes identificarlas y eliminarlas para liberar espacio en Firebase Storage.',
       },
       {
         heading: 'Tamaño de grilla',
@@ -154,7 +154,7 @@ export const HELP_CONTENT = {
   '/admin/mensajes': {
     title: 'Mensajes',
     icon: '💬',
-    intro: 'Aquí llegan todas las consultas enviadas desde el formulario de contacto del sitio. Podés gestionarlas y responderlas directamente.',
+    intro: 'Aquí llegan todas las consultas enviadas desde el formulario de contacto del sitio. Puedes gestionarlas y responderlas directamente.',
     items: [
       {
         heading: 'Estados',
@@ -162,11 +162,11 @@ export const HELP_CONTENT = {
       },
       {
         heading: 'Filtrar por estado',
-        text: 'Las pestañas superiores (Todos / Nuevos / Leídos / Archivados) te permiten enfocarte en los mensajes que necesitás atender.',
+        text: 'Las pestañas superiores (Todos / Nuevos / Leídos / Archivados) te permiten enfocarte en los mensajes que necesitas atender.',
       },
       {
         heading: 'Responder por WhatsApp',
-        text: 'Si el cliente dejó número de teléfono, podés hacer clic en el botón de WhatsApp para abrir una conversación con el mensaje precompletado.',
+        text: 'Si el cliente dejó número de teléfono, puedes hacer clic en el botón de WhatsApp para abrir una conversación con el mensaje precompletado.',
       },
       {
         heading: 'Responder por email',
@@ -182,11 +182,11 @@ export const HELP_CONTENT = {
   '/admin/configuracion': {
     title: 'Configuración',
     icon: '⚙️',
-    intro: 'Controlá todos los aspectos del sitio desde una sola pantalla. Los cambios se guardan sección por sección con el botón "✓ Guardar sección".',
+    intro: 'Controla todos los aspectos del sitio desde una sola pantalla. Los cambios se guardan sección por sección con el botón "✓ Guardar sección".',
     items: [
       {
         heading: 'General',
-        text: 'Nombre del sitio (aparece en el título del navegador y la navbar), tagline, texto del pie de página y logo. Si subís un logo, reemplaza el texto en la barra de navegación.',
+        text: 'Nombre del sitio (aparece en el título del navegador y la navbar), tagline, texto del pie de página y logo. Si subes un logo, reemplaza el texto en la barra de navegación.',
       },
       {
         heading: 'Inicio (Hero)',
@@ -198,7 +198,7 @@ export const HELP_CONTENT = {
       },
       {
         heading: 'Redes sociales',
-        text: 'URLs completas de cada red. Los íconos aparecen automáticamente en el footer cuando completás el campo. Dejá vacío los que no usás.',
+        text: 'URLs completas de cada red. Los íconos aparecen automáticamente en el footer cuando completas el campo. Deja vacíos los que no uses.',
       },
       {
         heading: 'Tienda',
@@ -206,15 +206,15 @@ export const HELP_CONTENT = {
       },
       {
         heading: 'SEO',
-        text: 'Meta título (máx. 60 caracteres), meta descripción (máx. 160 caracteres) y imagen Open Graph (se ve al compartir el link en WhatsApp, redes, etc.). También podés ingresar el ID de Google Analytics.',
+        text: 'Meta título (máx. 60 caracteres), meta descripción (máx. 160 caracteres) y imagen Open Graph (se ve al compartir el link en WhatsApp, redes, etc.). También puedes ingresar el ID de Google Analytics.',
       },
       {
         heading: 'Políticas',
-        text: 'Textos de política de envíos y devoluciones que se pueden mostrar en páginas dedicadas. También podés ingresar los links a los documentos legales.',
+        text: 'Textos de política de envíos y devoluciones que se pueden mostrar en páginas dedicadas. También puedes ingresar los links a los documentos legales.',
       },
       {
         heading: 'Avanzado',
-        text: 'Modo mantenimiento: activa una pantalla de "volvemos pronto" para los visitantes mientras trabajás en el sitio. El panel de administración siempre queda accesible. También controlás esta guía de ayuda desde acá.',
+        text: 'Modo mantenimiento: activa una pantalla de "volvemos pronto" para los visitantes mientras trabajas en el sitio. El panel de administración siempre queda accesible. También controlas esta guía de ayuda desde aquí.',
       },
     ],
   },

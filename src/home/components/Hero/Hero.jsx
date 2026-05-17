@@ -12,7 +12,7 @@ export default function Hero({ banner }) {
 
   const resolved = {
     title:    banner?.title    ?? 'Belleza que resalta\ntu esencia',
-    subtitle: banner?.subtitle ?? 'Descubrí nuestra selección de cosméticos, perfumes, cremas corporales y trajes de baño pensados para vos.',
+    subtitle: banner?.subtitle ?? 'Descubre nuestra selección de cosméticos, perfumes, cremas corporales y trajes de baño pensados para ti.',
     label:    banner?.label    ?? 'Nueva colección',
     imageUrl: banner?.imageUrl ?? null,
     buttons:  banner?.buttons?.length > 0 ? banner.buttons : DEFAULT_BUTTONS,

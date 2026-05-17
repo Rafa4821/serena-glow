@@ -131,7 +131,7 @@ export default function GalleryTab() {
       </div>
 
       <p className={styles.galleryHint}>
-        Hacé clic en el caption para editarlo directamente. Usá ◀ ▶ para reordenar. El ojo controla la visibilidad en el sitio.
+        Haz clic en el caption para editarlo directamente. Usa ◀ ▶ para reordenar. El ojo controla la visibilidad en el sitio.
       </p>
 
       {loading ? (

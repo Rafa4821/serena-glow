@@ -11,7 +11,7 @@ const DEFAULTS = {
   logoUrl: '',
   logoPath: '',
   heroTitle: 'Tu ritual de belleza,\nelevado.',
-  heroSubtitle: 'Cosméticos, perfumes, body care y trajes de baño pensados para vos.',
+  heroSubtitle: 'Cosméticos, perfumes, body care y trajes de baño pensados para ti.',
   heroCta: 'Explorar colección',
   heroSecondCta: 'Conocer más',
   whatsappNumber: import.meta.env.VITE_WHATSAPP_NUMBER ?? '',
@@ -19,12 +19,12 @@ const DEFAULTS = {
   email: '', phone: '', address: '', openingHours: '',
   instagramUrl: '', instagram: '',
   facebookUrl: '', tiktokUrl: '', youtubeUrl: '', pinterestUrl: '',
-  currency: '$', showPrices: true, productsPerPage: 12,
+  currency: 'Bs.', showPrices: true, productsPerPage: 12,
   freeShippingFrom: null, stockAlertThreshold: 3,
   catalogTitle: '', catalogSubtitle: '',
   metaTitle: '', metaDescription: '', ogImageUrl: '', googleAnalyticsId: '',
   shippingInfo: '', returnPolicy: '', termsUrl: '', privacyUrl: '',
-  maintenanceMode: false, maintenanceMessage: 'Estamos trabajando para vos. Volvemos pronto.',
+  maintenanceMode: false, maintenanceMessage: 'Estamos trabajando para ti. Volvemos pronto.',
 }
 
 export function SiteSettingsProvider({ children }) {

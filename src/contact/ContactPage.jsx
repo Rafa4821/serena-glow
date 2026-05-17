@@ -80,7 +80,7 @@ export default function ContactPage() {
             <span className="label-caps">Contacto</span>
             <h1 className={styles.title}>Hablemos</h1>
             <p className={styles.subtitle}>
-              Consultá por nuestros productos, precios o cualquier duda que tengas.
+              Consulta sobre nuestros productos, precios o cualquier duda que tengas.
             </p>
           </div>
         </div>
@@ -189,9 +189,9 @@ export default function ContactPage() {
             <aside className={styles.infoCol}>
               {waHref && (
                 <>
-                  <h2 className={styles.infoTitle}>¿Preferís WhatsApp?</h2>
+                  <h2 className={styles.infoTitle}>¿Prefieres WhatsApp?</h2>
                   <p className={styles.infoText}>
-                    Respondemos rápido. Consultá por productos, precios y disponibilidad directamente.
+                    Respondemos rápido. Consulta sobre productos, precios y disponibilidad directamente.
                   </p>
                   <a href={waHref} target="_blank" rel="noopener noreferrer" className={styles.waBtn}>
                     <WaIcon /> Escribirnos por WhatsApp

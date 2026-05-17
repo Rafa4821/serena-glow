@@ -6,6 +6,7 @@ import { useImageUpload } from '../shared/hooks/useImageUpload'
 import ImageUploader from '../shared/components/ImageUploader'
 import ConfirmModal from '../shared/components/ConfirmModal'
 import { showToast } from '@/shared/components/ui/Toast'
+import FieldHint from '../help/FieldHint'
 import { slugify } from '@/shared/utils/slugify'
 import MultiImageUploader from './MultiImageUploader'
 import BulkImportModal from './BulkImportModal'
@@ -27,7 +28,7 @@ const STATUS_TABS = [
 
 const EMPTY_FORM = {
   name: '', slug: '', shortDescription: '', description: '',
-  price: '', salePrice: '', currency: '$',
+  price: '', salePrice: '', currency: 'Bs.',
   categorySlug: '', categoryName: '',
   badge: '', status: 'published', featured: false, order: 0,
   stock: '', tags: '',
@@ -426,7 +427,7 @@ export default function ProductsPage() {
                 <div className={adminStyles.formCol}>
 
                   <div className={adminStyles.field}>
-                    <label className={adminStyles.label}>Nombre *</label>
+                    <label className={adminStyles.label}>Nombre * <FieldHint text="Nombre completo del producto. Aparece en la tarjeta del catálogo, en la página de detalle y en el título del navegador." /></label>
                     <input
                       name="name"
                       value={form.name}
@@ -438,7 +439,7 @@ export default function ProductsPage() {
                   </div>
 
                   <div className={adminStyles.field}>
-                    <label className={adminStyles.label}>Slug (URL)</label>
+                    <label className={adminStyles.label}>Slug (URL) <FieldHint text="URL amigable del producto. Se genera solo desde el nombre. Ejemplo: /producto/crema-hidratante. No lo cambies una vez publicado para no romper links guardados." /></label>
                     <input
                       name="slug"
                       value={form.slug}
@@ -449,7 +450,7 @@ export default function ProductsPage() {
                   </div>
 
                   <div className={adminStyles.field}>
-                    <label className={adminStyles.label}>Descripción corta</label>
+                    <label className={adminStyles.label}>Descripción corta <FieldHint text="Texto breve que aparece debajo del nombre en la tarjeta del catálogo y en la ficha de detalle. Recomendamos máximo 1-2 líneas. Ej: 'Crema hidratante con ácido hialurónico'." /></label>
                     <input
                       name="shortDescription"
                       value={form.shortDescription}
@@ -460,7 +461,7 @@ export default function ProductsPage() {
                   </div>
 
                   <div className={adminStyles.field}>
-                    <label className={adminStyles.label}>Descripción completa</label>
+                    <label className={adminStyles.label}>Descripción completa <FieldHint text="Texto largo visible en la página de detalle del producto, debajo de los datos principales. Puedes incluir ingredientes, instrucciones de uso, beneficios y cualquier información relevante." /></label>
                     <textarea
                       name="description"
                       value={form.description}
@@ -473,7 +474,7 @@ export default function ProductsPage() {
 
                   <div className={adminStyles.row}>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Precio</label>
+                      <label className={adminStyles.label}>Precio <FieldHint text="Precio de venta al público que se muestra en el catálogo y en la página de detalle." /></label>
                       <input
                         name="price"
                         type="number"
@@ -486,7 +487,7 @@ export default function ProductsPage() {
                       />
                     </div>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Precio oferta</label>
+                      <label className={adminStyles.label}>Precio oferta <FieldHint text="Precio de promoción. Si lo completas, el catálogo mostrará el precio original tachado y este en rojo como oferta. Déjalo vacío si no hay promoción activa." /></label>
                       <input
                         name="salePrice"
                         type="number"
@@ -502,20 +503,20 @@ export default function ProductsPage() {
 
                   <div className={adminStyles.row}>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Moneda</label>
+                      <label className={adminStyles.label}>Moneda <FieldHint text="Moneda en la que se muestran los precios de este producto. Puedes cambiar la moneda global en Configuración > Tienda." /></label>
                       <select
                         name="currency"
                         value={form.currency}
                         onChange={handleField}
                         className={adminStyles.select}
                       >
-                        <option value="$">Bs. (VES)</option>
-                        <option value="USD">USD</option>
-                        <option value="€">EUR</option>
+                        <option value="Bs.">Bs. (Bolívar venezolano)</option>
+                        <option value="USD">USD (Dólar americano)</option>
+                        <option value="€">€ (Euro)</option>
                       </select>
                     </div>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Stock</label>
+                      <label className={adminStyles.label}>Stock <FieldHint text="Unidades disponibles. Cuando llega a 0 el catálogo muestra 'Sin stock'. Puedes configurar en qué número aparece la alerta de stock bajo en Configuración > Tienda." /></label>
                       <input
                         name="stock"
                         type="number"
@@ -530,7 +531,7 @@ export default function ProductsPage() {
 
                   <div className={adminStyles.row}>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Categoría</label>
+                      <label className={adminStyles.label}>Categoría <FieldHint text="Categoría a la que pertenece el producto. Aparece como filtro en el catálogo y determina en qué tarjeta de categoría se incluye en la home." /></label>
                       <select
                         name="categorySlug"
                         value={form.categorySlug}
@@ -544,7 +545,7 @@ export default function ProductsPage() {
                       </select>
                     </div>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Orden</label>
+                      <label className={adminStyles.label}>Orden <FieldHint text="Número que define la posición del producto dentro del catálogo. Menor número = aparece primero. Puedes usar saltos de 10 (10, 20, 30...) para reordenar fácilmente sin renumerar todo." /></label>
                       <input
                         name="order"
                         type="number"
@@ -558,7 +559,7 @@ export default function ProductsPage() {
 
                   <div className={adminStyles.row}>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Badge / etiqueta</label>
+                      <label className={adminStyles.label}>Badge / etiqueta <FieldHint text="Etiqueta visual pequeña que aparece sobre la imagen del producto en el catálogo. Ej: 'Nuevo', 'Oferta', 'Edición limitada'. Déjalo vacío para que no aparezca ninguna." /></label>
                       <input
                         name="badge"
                         value={form.badge}
@@ -568,7 +569,7 @@ export default function ProductsPage() {
                       />
                     </div>
                     <div className={adminStyles.field}>
-                      <label className={adminStyles.label}>Estado</label>
+                      <label className={adminStyles.label}>Estado <FieldHint text="Publicado: visible en el catálogo para todos los visitantes. Borrador: guardado pero invisible en el sitio. Archivado: retirado temporalmente sin perder datos." /></label>
                       <select
                         name="status"
                         value={form.status}
@@ -583,7 +584,7 @@ export default function ProductsPage() {
                   </div>
 
                   <div className={adminStyles.field}>
-                    <label className={adminStyles.label}>Tags (separados por coma)</label>
+                    <label className={adminStyles.label}>Tags (separados por coma) <FieldHint text="Palabras clave para búsqueda y filtrado interno. Ej: 'verano, hidratante, oferta'. El visitante puede buscar por estos términos en la barra del catálogo." /></label>
                     <input
                       name="tags"
                       value={form.tags}
@@ -608,7 +609,7 @@ export default function ProductsPage() {
                   {/* Attributes */}
                   <div className={adminStyles.field}>
                     <div className={adminStyles.fieldHeader}>
-                      <label className={adminStyles.label}>Atributos</label>
+                      <label className={adminStyles.label}>Atributos <FieldHint text="Pares clave-valor para mostrar especificaciones en la ficha del producto. Ej: Contenido → 150ml, Tipo de piel → Mixta. Se muestran como tabla en la página de detalle." /></label>
                       <button type="button" className={adminStyles.btnSm} onClick={addAttribute}>
                         + Agregar
                       </button>

@@ -445,7 +445,7 @@ export default function MediaPage() {
             <div className={adminStyles.emptyState}>
               {search
                 ? 'Sin resultados para esa búsqueda.'
-                : 'No hay imágenes aquí todavía. Arrastrá o usá el botón para subir.'
+                : 'No hay imágenes aquí todavía. Arrastra o usa el botón para subir.'
               }
             </div>
           ) : (

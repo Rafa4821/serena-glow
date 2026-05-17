@@ -23,7 +23,7 @@ export default function ProductPage() {
     )
   }
 
-  const waMessage = encodeURIComponent(`¡Hola! Me interesa el producto: ${product.name}. ¿Me podés dar más información?`)
+  const waMessage = encodeURIComponent(`¡Hola! Me interesa el producto: ${product.name}. ¿Me pueden dar más información?`)
   const waHref    = `https://wa.me/${settings.whatsappNumber}?text=${waMessage}`
 
   return (

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import styles from './ProductCard.module.css'
 
 export default function ProductCard({ product, waBase }) {
-  const waMessage = encodeURIComponent(`¡Hola! Me interesa el producto: ${product.name}. ¿Me podés dar más información?`)
+  const waMessage = encodeURIComponent(`¡Hola! Me interesa el producto: ${product.name}. ¿Me pueden dar más información?`)
   const waHref    = waBase ? `${waBase}${waMessage}` : null
 
   return (

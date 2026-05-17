@@ -334,4 +334,22 @@
   }
 
   .infoCol { position: static; }
+
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .waBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header {
+    padding: var(--space-10) 0 var(--space-8);
+  }
+
+  .content {
+    padding-top: 0;
+  }
 }

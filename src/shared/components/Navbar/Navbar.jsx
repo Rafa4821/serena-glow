@@ -44,7 +44,7 @@ export default function Navbar() {
           rel="noopener noreferrer"
           className={styles.ctaBtn}
         >
-          Consultá por WhatsApp
+          Consulta por WhatsApp
         </a>
 
         {/* Hamburger */}

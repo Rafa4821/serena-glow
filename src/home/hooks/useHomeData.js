@@ -9,7 +9,7 @@ const MOCK = {
   heroBanner: {
     id: 'hero',
     title:    'Belleza que resalta\ntu esencia',
-    subtitle: 'Descubrí nuestra selección de cosméticos, perfumes, cremas corporales y trajes de baño pensados para vos.',
+    subtitle: 'Descubre nuestra selección de cosméticos, perfumes, cremas corporales y trajes de baño pensados para ti.',
     ctaText:  'Ver catálogo',
     ctaLink:  '/catalogo',
     imageUrl: null,

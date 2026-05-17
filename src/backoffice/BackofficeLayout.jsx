@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/app/providers/AuthProvider'
 import HelpPanel from './help/HelpPanel'
+import { HelpProvider } from './help/HelpContext'
 import styles from './BackofficeLayout.module.css'
 
 const NAV = [
@@ -43,6 +44,7 @@ export default function BackofficeLayout() {
   }
 
   return (
+    <HelpProvider>
     <div className={`${styles.shell} ${collapsed ? styles.collapsed : ''}`}>
       {/* Sidebar */}
       <aside className={`${styles.sidebar} ${mobileOpen ? styles.sidebarOpen : ''}`}>
@@ -123,6 +125,7 @@ export default function BackofficeLayout() {
         />
       )}
     </div>
+    </HelpProvider>
   )
 }
 

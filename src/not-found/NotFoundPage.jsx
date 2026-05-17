@@ -10,8 +10,8 @@ export default function NotFoundPage() {
           <span className={styles.code}>404</span>
           <h1 className={styles.title}>Página no encontrada</h1>
           <p className={styles.text}>
-            La página que buscás no existe o fue movida.<br />
-            Explorá nuestra colección y encontrá algo que te encante.
+            La página que buscas no existe o fue movida.<br />
+            Explora nuestra colección y encuentra algo que te encante.
           </p>
           <div className={styles.actions}>
             <Link to="/" className={styles.btnPrimary}>Volver al inicio</Link>

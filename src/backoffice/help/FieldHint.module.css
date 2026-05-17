@@ -1,0 +1,89 @@
+/* ── Wrapper (inline, no overflow context) ───────────── */
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5px;
+  vertical-align: middle;
+  position: relative;   /* only for the button, NOT the tooltip */
+}
+
+/* ── ? Button ────────────────────────────────────────── */
+.btn {
+  width: 15px;
+  height: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  line-height: 1;
+  color: var(--color-text-muted);
+  background: var(--color-white-broken);
+  border: 1.5px solid #d4cfe0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.btn:hover,
+.btnActive {
+  color: var(--color-mauve-soft);
+  border-color: var(--color-mauve-soft);
+  background: rgba(183, 164, 199, 0.14);
+}
+
+/* ── Tooltip — rendered via React portal on document.body ── */
+.tooltip {
+  position: fixed;          /* viewport-relative, never clipped */
+  width: 264px;
+  background: #2d2637;
+  color: #f5f2f8;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.65;
+  padding: 11px 14px;
+  border-radius: 10px;
+  z-index: 9999;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.26), 0 2px 8px rgba(0,0,0,0.12);
+  pointer-events: none;
+  white-space: normal;
+  word-break: break-word;
+  /* Hidden until JS measures & positions it (prevents flash at 0,0) */
+  opacity: 0;
+  transition: opacity 0.13s ease;
+}
+
+/* Becomes visible after useLayoutEffect calculates position */
+.tooltipVisible {
+  opacity: 1;
+}
+
+/* ── Arrow shared ─────────────────────────────────────── */
+.tooltip::after {
+  content: '';
+  position: absolute;
+  left: var(--arrow-left, 50%);   /* JS sets this to point at the ? button */
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+}
+
+/* ── Arrow: tooltip is ABOVE the button → arrow points down ── */
+.placeTop::after {
+  top: 100%;
+  border-top-color: #2d2637;
+}
+
+/* ── Arrow: tooltip is BELOW the button → arrow points up ── */
+.placeBottom::after {
+  bottom: 100%;
+  border-bottom-color: #2d2637;
+}
+
+/* ── Mobile: slightly narrower ───────────────────────── */
+@media (max-width: 480px) {
+  .tooltip { width: 230px; }
+}

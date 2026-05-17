@@ -189,4 +189,18 @@
   }
 
   .infoCol { position: static; }
+
+  .waBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .name {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+
+  .page {
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-12);
+  }
 }

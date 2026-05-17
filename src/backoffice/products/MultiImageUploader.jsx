@@ -145,7 +145,7 @@ export default function MultiImageUploader({ images = [], onChange, folder = 'pr
       </div>
 
       <p className={styles.hint}>
-        Podés subir varias a la vez · Arrastrá las miniaturas con ◀▶ para reordenar
+        Puedes subir varias a la vez · Arrastra las miniaturas con ◀▶ para reordenar
       </p>
 
       <input
