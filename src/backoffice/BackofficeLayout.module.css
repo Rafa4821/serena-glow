@@ -199,6 +199,36 @@
   color: var(--color-text-muted);
 }
 
+.helpBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-muted);
+  background: var(--color-white-broken);
+  border: 1.5px solid var(--admin-border, #e8e6ec);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  flex-shrink: 0;
+}
+
+.helpBtn:hover {
+  color: var(--color-mauve-soft);
+  border-color: var(--color-mauve-soft);
+  background: rgba(183,164,199,0.1);
+}
+
+.helpBtnActive {
+  color: #fff;
+  background: var(--color-mauve-soft);
+  border-color: var(--color-mauve-soft);
+}
+
 /* Content */
 .content {
   flex: 1;

@@ -40,6 +40,14 @@
   letter-spacing: 0.02em;
 }
 
+.logoImg {
+  height: 40px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  display: block;
+}
+
 /* Desktop nav */
 .navDesktop {
   display: flex;

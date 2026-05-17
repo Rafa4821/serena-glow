@@ -83,7 +83,7 @@ export default function GalleryPage() {
         <div className={styles.grid}>
           {items.map(item => (
             <div key={item.id} className={styles.cell}>
-              <img src={item.imageUrl} alt={item.caption ?? ''} className={styles.img} />
+              <img src={item.imageUrl} alt={item.caption ?? ''} className={styles.img} loading="lazy" decoding="async" />
               {!item.active && <span className={styles.hiddenTag}>Oculta</span>}
               <div className={styles.cellOverlay}>
                 <button className={adminStyles.btnEdit} onClick={() => openEdit(item)}>Editar</button>

@@ -1,0 +1,172 @@
+.modal {
+  width: min(860px, 95vw);
+}
+
+.body {
+  padding: 0 var(--space-6) var(--space-6);
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+/* ── Steps ── */
+.stepBlock {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--color-gray-light);
+}
+
+.stepBlock:last-child {
+  border-bottom: none;
+}
+
+.stepNum {
+  width: 32px;
+  height: 32px;
+  background: var(--color-mauve-soft);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.stepContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.stepTitle {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-main);
+  margin: 0;
+}
+
+.stepDesc {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Category chips ── */
+.catList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.catListLabel {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.catChip {
+  background: var(--color-white-broken);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-2);
+  font-size: 0.72rem;
+  color: var(--color-text-main);
+}
+
+/* ── Download buttons ── */
+.downloadBtns {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* ── File drop zone ── */
+.fileDropZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 2px dashed var(--color-gray-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-4);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  transition: border-color var(--transition-base), background var(--transition-base);
+  max-width: 380px;
+}
+
+.fileDropZone:hover {
+  border-color: var(--color-mauve-soft);
+  background: #faf7fc;
+  color: var(--color-mauve-soft);
+}
+
+.fileDropZone small {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-light);
+}
+
+.hiddenInput { display: none; }
+
+/* ── Preview ── */
+.previewHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.previewCount {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.errorList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.errorItem {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: #b91c1c;
+  background: #fff5f5;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.previewTableWrap {
+  overflow-x: auto;
+  max-height: 42vh;
+  overflow-y: auto;
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-md);
+}
+
+.rowError {
+  background: #fff5f5;
+}
+
+.truncNote {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+  text-align: center;
+}

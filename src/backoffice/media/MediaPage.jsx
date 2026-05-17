@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import * as XLSX from 'xlsx'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '@/firebase/firestore'
 import { mediaService } from '@/firebase/services/mediaService'
 import { convertImage, formatBytes } from '@/shared/utils/imageConverter'
 import ConfirmModal from '../shared/components/ConfirmModal'
 import { showToast } from '@/shared/components/ui/Toast'
+import GalleryTab from './GalleryTab'
 import adminStyles from '../admin.module.css'
 import styles from './MediaPage.module.css'
 
@@ -10,7 +14,15 @@ const FOLDERS = ['products', 'categories', 'banners', 'gallery', 'uploads']
 
 const UPLOAD_STATUS = { IDLE: 'idle', CONVERTING: 'converting', UPLOADING: 'uploading' }
 
+const SORT_OPTIONS = [
+  { value: 'newest', label: 'Más recientes' },
+  { value: 'oldest', label: 'Más antiguas'  },
+  { value: 'name',   label: 'Nombre A-Z'    },
+  { value: 'size',   label: 'Más pesadas'   },
+]
+
 export default function MediaPage() {
+  const [tab,           setTab]           = useState('library')
   const [items,         setItems]         = useState([])
   const [loading,       setLoading]       = useState(true)
   const [uploadStatus,  setUploadStatus]  = useState(UPLOAD_STATUS.IDLE)
@@ -19,12 +31,18 @@ export default function MediaPage() {
   const [folder,        setFolder]        = useState('uploads')
   const [filter,        setFilter]        = useState('all')
   const [search,        setSearch]        = useState('')
+  const [sortBy,        setSortBy]        = useState('newest')
+  const [gridSize,      setGridSize]      = useState('md')
   const [selected,      setSelected]      = useState(null)
   const [altText,       setAltText]       = useState('')
+  const [editingName,   setEditingName]   = useState(false)
+  const [nameDraft,     setNameDraft]     = useState('')
   const [savingAlt,     setSavingAlt]     = useState(false)
+  const [savingName,    setSavingName]    = useState(false)
   const [isDragOver,    setIsDragOver]    = useState(false)
   const [bulkConfirm,   setBulkConfirm]   = useState(false)
   const [bulkDeleting,  setBulkDeleting]  = useState(false)
+  const [copiedId,      setCopiedId]      = useState(null)
   const inputRef = useRef(null)
 
   useEffect(() => {
@@ -149,11 +167,72 @@ export default function MediaPage() {
     }
   }
 
-  function copyUrl(url) {
-    navigator.clipboard?.writeText(url).then(() => showToast('URL copiada.', 'success'))
+  function copyUrl(url, id) {
+    navigator.clipboard?.writeText(url).then(() => {
+      showToast('URL copiada.', 'success')
+      if (id) { setCopiedId(id); setTimeout(() => setCopiedId(null), 1500) }
+    })
   }
 
-  function openItem(item) { setSelected(item); setAltText(item.altText ?? '') }
+  function openDownload(url) {
+    window.open(url, '_blank', 'noopener')
+  }
+
+  function exportCSV() {
+    const headers = ['Nombre', 'URL', 'URL miniatura', 'Carpeta', 'Tamaño', 'Alt text']
+    const rows = filtered.map(i => [
+      i.name ?? '',
+      i.url  ?? '',
+      i.thumbUrl ?? '',
+      i.folder   ?? '',
+      i.size ? formatBytes(i.size) : '',
+      i.altText  ?? '',
+    ])
+    const csv = [headers, ...rows]
+      .map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))
+      .join('\n')
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })
+    const url  = URL.createObjectURL(blob)
+    Object.assign(document.createElement('a'), { href: url, download: 'medios-urls.csv' }).click()
+    URL.revokeObjectURL(url)
+    showToast(`${filtered.length} imagen${filtered.length !== 1 ? 'es' : ''} exportada${filtered.length !== 1 ? 's' : ''}.`, 'success')
+  }
+
+  function exportXLSX() {
+    const headers = ['Nombre', 'URL', 'URL miniatura', 'Carpeta', 'Tamaño', 'Alt text']
+    const rows = filtered.map(i => [
+      i.name ?? '',
+      i.url  ?? '',
+      i.thumbUrl ?? '',
+      i.folder   ?? '',
+      i.size ? formatBytes(i.size) : '',
+      i.altText  ?? '',
+    ])
+    const wb = XLSX.utils.book_new()
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...rows])
+    ws['!cols'] = [{ wch: 36 }, { wch: 80 }, { wch: 80 }, { wch: 14 }, { wch: 10 }, { wch: 40 }]
+    XLSX.utils.book_append_sheet(wb, ws, 'Medios')
+    XLSX.writeFile(wb, 'medios-urls.xlsx')
+    showToast(`${filtered.length} imagen${filtered.length !== 1 ? 'es' : ''} exportada${filtered.length !== 1 ? 's' : ''}.`, 'success')
+  }
+
+  async function handleSaveName() {
+    if (!selected || !nameDraft.trim()) return
+    setSavingName(true)
+    try {
+      await updateDoc(doc(db, 'media', selected.id), { name: nameDraft.trim() })
+      setItems(prev => prev.map(i => i.id === selected.id ? { ...i, name: nameDraft.trim() } : i))
+      setSelected(s => ({ ...s, name: nameDraft.trim() }))
+      setEditingName(false)
+      showToast('Nombre actualizado.', 'success')
+    } catch {
+      showToast('Error al guardar nombre.', 'error')
+    } finally {
+      setSavingName(false)
+    }
+  }
+
+  function openItem(item) { setSelected(item); setAltText(item.altText ?? ''); setEditingName(false) }
 
   /* ── Filter / search ─────────────────────────────────── */
   const isOrphan = i => (i.refCount ?? 0) === 0 && (!i.usedBy || i.usedBy.length === 0)
@@ -163,13 +242,23 @@ export default function MediaPage() {
     : filter === 'all'              ? items
     : items.filter(i => i.folder === filter)
 
-  const filtered = search.trim()
+  const searched = search.trim()
     ? base.filter(i =>
         i.name?.toLowerCase().includes(search.toLowerCase()) ||
         i.altText?.toLowerCase().includes(search.toLowerCase())
       )
     : base
 
+  const filtered = [...searched].sort((a, b) => {
+    if (sortBy === 'newest') return (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0)
+    if (sortBy === 'oldest') return (a.createdAt?.seconds ?? 0) - (b.createdAt?.seconds ?? 0)
+    if (sortBy === 'name')   return (a.name ?? '').localeCompare(b.name ?? '')
+    if (sortBy === 'size')   return (b.size ?? 0) - (a.size ?? 0)
+    return 0
+  })
+
+  const totalSize   = items.reduce((acc, i) => acc + (i.size ?? 0), 0)
+  const webpCount   = items.filter(i => i.mimeType === 'image/webp').length
   const busy = uploadStatus !== UPLOAD_STATUS.IDLE
 
   /* ── Render ──────────────────────────────────────────── */
@@ -179,21 +268,45 @@ export default function MediaPage() {
       {/* Header */}
       <div className={adminStyles.pageHeader}>
         <div>
-          <h1 className={adminStyles.pageTitle}>Biblioteca de medios</h1>
+          <h1 className={adminStyles.pageTitle}>Medios</h1>
           <p className={adminStyles.pageSub}>
             {items.length} archivo{items.length !== 1 ? 's' : ''} ·{' '}
-            {orphans.length} sin uso ·{' '}
-            <span className={styles.webpNote}>auto WebP</span>
+            {formatBytes(totalSize)} ·{' '}
+            {orphans.length > 0 && <>{orphans.length} sin uso · </>}
+            <span className={styles.webpNote}>{webpCount} WebP</span>
           </p>
         </div>
+        {tab === 'library' && (
+          <button
+            className={adminStyles.btnPrimary}
+            onClick={() => inputRef.current?.click()}
+            disabled={busy}
+          >
+            {busy ? statusLabel(uploadStatus, progress, currentFile) : '+ Subir imágenes'}
+          </button>
+        )}
+      </div>
+
+      {/* Main tab bar */}
+      <div className={styles.mainTabBar}>
         <button
-          className={adminStyles.btnPrimary}
-          onClick={() => inputRef.current?.click()}
-          disabled={busy}
+          className={`${styles.mainTab} ${tab === 'library' ? styles.mainTabActive : ''}`}
+          onClick={() => setTab('library')}
         >
-          {busy ? statusLabel(uploadStatus, progress, currentFile) : '+ Subir imágenes'}
+          🗂 Biblioteca de medios
+        </button>
+        <button
+          className={`${styles.mainTab} ${tab === 'gallery' ? styles.mainTabActive : ''}`}
+          onClick={() => setTab('gallery')}
+        >
+          🖼 Galería Instagram
         </button>
       </div>
+
+      {/* Gallery tab */}
+      {tab === 'gallery' && <GalleryTab />}
+
+      {tab === 'library' && (<>
 
       {/* Upload options */}
       <div className={styles.uploadBar}>
@@ -247,13 +360,13 @@ export default function MediaPage() {
             { value: 'all',     label: `Todas (${items.length})` },
             { value: 'orphans', label: `Sin uso (${orphans.length})` },
             ...FOLDERS.map(f => ({ value: f, label: f })),
-          ].map(tab => (
+          ].map(t => (
             <button
-              key={tab.value}
-              className={`${styles.filterTab} ${filter === tab.value ? styles.filterTabActive : ''}`}
-              onClick={() => setFilter(tab.value)}
+              key={t.value}
+              className={`${styles.filterTab} ${filter === t.value ? styles.filterTabActive : ''}`}
+              onClick={() => setFilter(t.value)}
             >
-              {tab.label}
+              {t.label}
             </button>
           ))}
         </div>
@@ -265,6 +378,50 @@ export default function MediaPage() {
           onChange={e => setSearch(e.target.value)}
           className={styles.searchInput}
         />
+      </div>
+
+      {/* Sort + grid-size bar */}
+      <div className={styles.enhanceRow}>
+        <div className={styles.enhanceLeft}>
+          <span className={styles.enhanceLabel}>Ordenar:</span>
+          <select value={sortBy} onChange={e => setSortBy(e.target.value)} className={styles.sortSelect}>
+            {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+          <span className={styles.enhanceLabel}>Mostrando {filtered.length} de {items.length}</span>
+        </div>
+        <div className={styles.enhanceRight}>
+          <div className={styles.exportBtns}>
+            <span className={styles.enhanceLabel}>Exportar URLs:</span>
+            <button
+              className={styles.exportBtn}
+              onClick={exportCSV}
+              disabled={filtered.length === 0}
+              title="Exportar lista de imágenes como CSV"
+            >
+              ↓ CSV
+            </button>
+            <button
+              className={styles.exportBtn}
+              onClick={exportXLSX}
+              disabled={filtered.length === 0}
+              title="Exportar lista de imágenes como Excel"
+            >
+              ↓ Excel
+            </button>
+          </div>
+          <div className={styles.sizeBar}>
+            {['sm','md','lg'].map(s => (
+              <button
+                key={s}
+                className={`${styles.sizeBtn} ${gridSize === s ? styles.sizeBtnActive : ''}`}
+                onClick={() => setGridSize(s)}
+                title={s === 'sm' ? 'Mosaico pequeño' : s === 'md' ? 'Mosaico mediano' : 'Mosaico grande'}
+              >
+                {s === 'sm' ? '⊞' : s === 'md' ? '▣' : '□'}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Drop zone + grid */}
@@ -292,7 +449,7 @@ export default function MediaPage() {
               }
             </div>
           ) : (
-            <div className={styles.grid}>
+            <div className={`${styles.grid} ${styles[`grid${gridSize.charAt(0).toUpperCase() + gridSize.slice(1)}`]}`}>
               {filtered.map(item => (
                 <div
                   key={item.id}
@@ -314,6 +471,14 @@ export default function MediaPage() {
                     {item.mimeType === 'image/webp' && <span className={styles.webpBadge}>WebP</span>}
                     {isOrphan(item) && <span className={styles.orphanTag}>Sin uso</span>}
                   </div>
+                  <button
+                    type="button"
+                    className={`${styles.quickCopyBtn} ${copiedId === item.id ? styles.quickCopied : ''}`}
+                    onClick={e => { e.stopPropagation(); copyUrl(item.url, item.id) }}
+                    title="Copiar URL"
+                  >
+                    {copiedId === item.id ? '✓' : '⎘'}
+                  </button>
                 </div>
               ))}
             </div>
@@ -331,8 +496,30 @@ export default function MediaPage() {
               className={styles.detailImg}
             />
 
+            {/* Name (editable) */}
+            {editingName ? (
+              <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
+                <input
+                  autoFocus
+                  value={nameDraft}
+                  onChange={e => setNameDraft(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleSaveName(); if (e.key === 'Escape') setEditingName(false) }}
+                  className={adminStyles.input}
+                  style={{ flex: 1, fontSize: '0.8rem' }}
+                />
+                <button className={adminStyles.btnSm} onClick={handleSaveName} disabled={savingName}>{savingName ? '…' : '✓'}</button>
+                <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)' }}>✕</button>
+              </div>
+            ) : null}
+
             <div className={styles.detailMeta}>
-              <p className={styles.detailName}>{selected.name}</p>
+              <button
+                className={styles.detailNameBtn}
+                onClick={() => { setEditingName(true); setNameDraft(selected.name || '') }}
+                title="Clic para renombrar"
+              >
+                {selected.name || '(sin nombre)'} ✏
+              </button>
               <p className={styles.detailInfo}>
                 {selected.folder}
                 {selected.width ? ` · ${selected.width}×${selected.height}` : ''}
@@ -368,7 +555,7 @@ export default function MediaPage() {
             </div>
 
             <div className={styles.detailActions}>
-              <button className={adminStyles.btnSecondary} onClick={() => copyUrl(selected.url)}>
+              <button className={adminStyles.btnSecondary} onClick={() => copyUrl(selected.url, selected.id)}>
                 Copiar URL
               </button>
               {selected.thumbUrl && (
@@ -376,6 +563,9 @@ export default function MediaPage() {
                   Copiar thumb
                 </button>
               )}
+              <button className={adminStyles.btnSecondary} onClick={() => openDownload(selected.url)}>
+                ↓ Abrir original
+              </button>
               <button
                 className={adminStyles.btnDelete}
                 onClick={() => handleDelete(selected)}
@@ -392,6 +582,8 @@ export default function MediaPage() {
           </div>
         )}
       </div>
+
+      </> )} {/* end library tab */}
 
       {/* Bulk delete confirm */}
       {bulkConfirm && (

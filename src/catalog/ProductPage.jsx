@@ -39,17 +39,20 @@ export default function ProductPage() {
                 src={product.imageUrl}
                 alt={product.name}
                 className={styles.image}
+                loading="lazy"
+                decoding="async"
               />
             ) : (
               <div className={styles.imagePlaceholder} />
             )}
 
-            {/* Extra images */}
+            {/* Extra images — supports string[] (legacy) and {url,path}[] (new) */}
             {product.images?.length > 0 && (
               <div className={styles.thumbs}>
-                {product.images.map((url, i) => (
-                  <img key={i} src={url} alt={`${product.name} ${i + 1}`} className={styles.thumb} loading="lazy" decoding="async" />
-                ))}
+                {product.images.map((img, i) => {
+                  const src = typeof img === 'string' ? img : img?.url
+                  return src ? <img key={i} src={src} alt={`${product.name} ${i + 1}`} className={styles.thumb} loading="lazy" decoding="async" /> : null
+                })}
               </div>
             )}
           </div>

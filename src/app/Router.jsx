@@ -15,7 +15,6 @@ const BackofficeDashboard  = lazy(() => import('@/backoffice/dashboard/Dashboard
 const BackofficeProducts   = lazy(() => import('@/backoffice/products/ProductsPage'))
 const BackofficeCategories = lazy(() => import('@/backoffice/categories/CategoriesPage'))
 const BackofficeBanners    = lazy(() => import('@/backoffice/banners/BannersPage'))
-const BackofficeGallery    = lazy(() => import('@/backoffice/gallery/GalleryPage'))
 const BackofficeMessages   = lazy(() => import('@/backoffice/messages/MessagesPage'))
 const BackofficeSettings   = lazy(() => import('@/backoffice/settings/SettingsPage'))
 const BackofficeMedia      = lazy(() => import('@/backoffice/media/MediaPage'))
@@ -57,7 +56,7 @@ export default function Router() {
           <Route path="productos"       element={<BackofficeProducts />} />
           <Route path="categorias"      element={<BackofficeCategories />} />
           <Route path="banners"         element={<BackofficeBanners />} />
-          <Route path="galeria"         element={<BackofficeGallery />} />
+          <Route path="galeria"         element={<Navigate to="/admin/media" replace />} />
           <Route path="mensajes"        element={<BackofficeMessages />} />
           <Route path="configuracion"   element={<BackofficeSettings />} />
           <Route path="media"            element={<BackofficeMedia />} />

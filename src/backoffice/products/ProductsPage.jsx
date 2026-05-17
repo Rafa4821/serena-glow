@@ -7,6 +7,8 @@ import ImageUploader from '../shared/components/ImageUploader'
 import ConfirmModal from '../shared/components/ConfirmModal'
 import { showToast } from '@/shared/components/ui/Toast'
 import { slugify } from '@/shared/utils/slugify'
+import MultiImageUploader from './MultiImageUploader'
+import BulkImportModal from './BulkImportModal'
 import styles from './ProductsPage.module.css'
 import adminStyles from '../admin.module.css'
 
@@ -44,7 +46,8 @@ export default function ProductsPage() {
   const [search,       setSearch]       = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [quickActing,  setQuickActing]  = useState(null)
-  const [deleteConfirm, setDeleteConfirm] = useState(null) // product to hard-delete
+  const [deleteConfirm,   setDeleteConfirm]   = useState(null)
+  const [showBulkImport, setShowBulkImport] = useState(false)
 
   const { remove } = useImageUpload()
 
@@ -69,7 +72,10 @@ export default function ProductsPage() {
 
   const openEdit = useCallback((p) => {
     setEditing(p.id)
-    setForm({ ...EMPTY_FORM, ...p, tags: Array.isArray(p.tags) ? p.tags.join(', ') : (p.tags ?? '') })
+    const normalizedImages = (p.images ?? []).map(img =>
+      typeof img === 'string' ? { url: img, path: '' } : img
+    )
+    setForm({ ...EMPTY_FORM, ...p, images: normalizedImages, tags: Array.isArray(p.tags) ? p.tags.join(', ') : (p.tags ?? '') })
     setShowForm(true)
   }, [])
 
@@ -231,9 +237,14 @@ export default function ProductsPage() {
           <h1 className={adminStyles.pageTitle}>Productos</h1>
           <p className={adminStyles.pageSub}>{products.length} productos registrados</p>
         </div>
-        <button className={adminStyles.btnPrimary} onClick={openCreate}>
-          + Nuevo producto
-        </button>
+        <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
+          <button className={adminStyles.btnSecondary} onClick={() => setShowBulkImport(true)}>
+            ↑ Importar CSV/Excel
+          </button>
+          <button className={adminStyles.btnPrimary} onClick={openCreate}>
+            + Nuevo producto
+          </button>
+        </div>
       </div>
 
       {/* Status tabs */}
@@ -291,7 +302,7 @@ export default function ProductsPage() {
                   <tr key={p.id} className={p.status === 'archived' ? styles.rowArchived : ''}>
                     <td>
                       {p.imageUrl
-                        ? <img src={p.imageUrl} alt={p.name} className={adminStyles.tableThumb} />
+                        ? <img src={p.imageUrl} alt={p.name} className={adminStyles.tableThumb} loading="lazy" decoding="async" />
                         : <div className={adminStyles.tableThumbEmpty} />
                       }
                     </td>
@@ -628,7 +639,7 @@ export default function ProductsPage() {
                   </div>
                 </div>
 
-                {/* ── Right column – image ── */}
+                {/* ── Right column – images ── */}
                 <div className={adminStyles.formCol}>
                   <ImageUploader
                     label="Imagen principal"
@@ -636,7 +647,17 @@ export default function ProductsPage() {
                     value={form.imageUrl || null}
                     storagePath={form.imagePath || null}
                     onChange={handleImageChange}
+                    showLibraryPicker
+                    registerInLibrary
                   />
+
+                  <div style={{ marginTop: 'var(--space-5)' }}>
+                    <MultiImageUploader
+                      images={form.images}
+                      onChange={imgs => setForm(f => ({ ...f, images: imgs }))}
+                      folder="products"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -662,6 +683,13 @@ export default function ProductsPage() {
       )}
 
       {/* ── Hard-delete confirmation ────────────────────── */}
+      {showBulkImport && (
+        <BulkImportModal
+          categories={categories}
+          onClose={() => setShowBulkImport(false)}
+        />
+      )}
+
       {deleteConfirm && (
         <ConfirmModal
           title="Eliminar producto"

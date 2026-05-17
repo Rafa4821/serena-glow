@@ -96,6 +96,13 @@
 
 .removeBtn:hover { background: rgba(168, 50, 50, 0.85); }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
 .changeBtn {
   font-family: var(--font-sans);
   font-size: var(--font-size-xs);
@@ -111,6 +118,24 @@
 
 .changeBtn:hover:not(:disabled) { color: var(--color-primary-dark); }
 .changeBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.libraryBtn {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  background: var(--color-white-broken);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  padding: 3px var(--space-2);
+  transition: all var(--transition-base);
+}
+
+.libraryBtn:hover:not(:disabled) {
+  border-color: var(--color-mauve-soft);
+  color: var(--color-mauve-soft);
+}
+.libraryBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .error {
   font-family: var(--font-sans);

@@ -1,38 +1,180 @@
-.page { max-width: 800px; }
+.page { max-width: 860px; }
 
+/* ── Tab bar ──────────────────────────────────────────── */
+.tabBar {
+  display: flex;
+  gap: 2px;
+  margin-bottom: var(--space-6);
+  background: var(--color-white-broken);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-xl);
+  padding: 4px;
+  flex-wrap: wrap;
+}
+
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.tabBtn:hover { color: var(--color-mauve-soft); background: rgba(183,164,199,0.1); }
+
+.tabBtnActive {
+  background: var(--color-surface);
+  color: var(--color-mauve-soft);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+/* ── Section card ─────────────────────────────────────── */
 .section {
   background: var(--color-surface);
   border: 1px solid var(--admin-border, #e8e6ec);
   border-radius: var(--radius-xl);
   padding: var(--space-8);
-  margin-bottom: var(--space-6);
 }
 
-.sectionTitle {
-  font-family: var(--font-serif);
-  font-size: var(--font-size-lg);
-  font-weight: 400;
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--admin-border, #e8e6ec);
-}
-
+/* ── Fields grid ──────────────────────────────────────── */
 .fieldsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-5);
+  margin-bottom: var(--space-6);
 }
 
-.fullWidth {
-  grid-column: 1 / -1;
+.fullWidth { grid-column: 1 / -1; }
+
+/* ── Field hint ───────────────────────────────────────── */
+.fieldHint {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin: var(--space-1) 0 0;
+  line-height: 1.5;
 }
 
-.formFooter {
+/* ── WA preview link ──────────────────────────────────── */
+.previewLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: #166534;
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-full);
+  padding: 0.35rem 1rem;
+  text-decoration: none;
+  margin-bottom: var(--space-5);
+  transition: background var(--transition-base);
+}
+
+.previewLink:hover { background: #bbf7d0; }
+
+/* ── Toggle switch ────────────────────────────────────── */
+.toggleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.toggleLabel {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-main);
+}
+
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--color-gray-light);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--transition-base);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.toggle:focus-visible { outline: 2px solid var(--color-mauve-soft); outline-offset: 2px; }
+
+.toggleOn { background: var(--color-mauve-soft); }
+
+.toggleThumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform var(--transition-base);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggleOn .toggleThumb { transform: translateX(20px); }
+
+/* ── Save bar ─────────────────────────────────────────── */
+.saveBar {
   display: flex;
   justify-content: flex-end;
-  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--admin-border, #e8e6ec);
 }
 
-@media (max-width: 576px) {
+/* ── Danger zone (Avanzado) ───────────────────────────── */
+.dangerZone {
+  border: 1.5px solid var(--color-gray-light);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  transition: border-color var(--transition-base), background var(--transition-base);
+}
+
+.dangerActive {
+  border-color: #fca5a5;
+  background: #fff5f5;
+}
+
+.dangerHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.dangerTitle {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: #b91c1c;
+  margin-bottom: var(--space-1);
+}
+
+.dangerDesc {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: 540px;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 680px) {
   .fieldsGrid { grid-template-columns: 1fr; }
+  .tabBtn { font-size: 10px; padding: 0.35rem 0.6rem; gap: 4px; }
 }

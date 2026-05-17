@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/app/providers/AuthProvider'
+import HelpPanel from './help/HelpPanel'
 import styles from './BackofficeLayout.module.css'
 
 const NAV = [
@@ -8,7 +9,6 @@ const NAV = [
   { to: '/admin/productos',    label: 'Productos',      icon: BoxIcon },
   { to: '/admin/categorias',   label: 'Categorías',     icon: TagIcon },
   { to: '/admin/banners',      label: 'Banners',        icon: ImageIcon },
-  { to: '/admin/galeria',      label: 'Galería',        icon: GalleryIcon },
   { to: '/admin/media',        label: 'Medios',         icon: MediaIcon },
   { to: '/admin/mensajes',     label: 'Mensajes',       icon: MessageIcon },
   { to: '/admin/configuracion',label: 'Configuración',  icon: SettingsIcon },
@@ -17,8 +17,25 @@ const NAV = [
 export default function BackofficeLayout() {
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
-  const [collapsed, setCollapsed] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [collapsed,    setCollapsed]    = useState(false)
+  const [mobileOpen,   setMobileOpen]   = useState(false)
+  const [helpOpen,     setHelpOpen]     = useState(false)
+  const [helpEnabled,  setHelpEnabled]  = useState(
+    () => localStorage.getItem('sg_admin_help') !== 'false'
+  )
+
+  useEffect(() => {
+    const handler = () => setHelpEnabled(localStorage.getItem('sg_admin_help') !== 'false')
+    window.addEventListener('sg_help_change', handler)
+    return () => window.removeEventListener('sg_help_change', handler)
+  }, [])
+
+  function handleDisableHelp() {
+    localStorage.setItem('sg_admin_help', 'false')
+    setHelpEnabled(false)
+    setHelpOpen(false)
+    window.dispatchEvent(new Event('sg_help_change'))
+  }
 
   async function handleSignOut() {
     await signOut()
@@ -78,6 +95,16 @@ export default function BackofficeLayout() {
             <HamburgerIcon />
           </button>
           <div className={styles.topBarRight}>
+            {helpEnabled && (
+              <button
+                className={`${styles.helpBtn} ${helpOpen ? styles.helpBtnActive : ''}`}
+                onClick={() => setHelpOpen(v => !v)}
+                aria-label="Guía de ayuda"
+                title="Guía de ayuda"
+              >
+                ?
+              </button>
+            )}
             <span className={styles.userEmail}>{user?.email}</span>
           </div>
         </header>
@@ -87,6 +114,14 @@ export default function BackofficeLayout() {
           <Outlet />
         </div>
       </div>
+
+      {/* Help panel */}
+      {helpOpen && (
+        <HelpPanel
+          onClose={() => setHelpOpen(false)}
+          onDisable={handleDisableHelp}
+        />
+      )}
     </div>
   )
 }

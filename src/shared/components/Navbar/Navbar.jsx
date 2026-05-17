@@ -22,7 +22,10 @@ export default function Navbar() {
       <div className={`container ${styles.inner}`}>
         {/* Logo */}
         <Link to="/" className={styles.brand}>
-          <span className={styles.brandText}>{settings.siteName}</span>
+          {settings.logoUrl
+            ? <img src={settings.logoUrl} alt={settings.siteName} className={styles.logoImg} loading="eager" fetchpriority="high" />
+            : <span className={styles.brandText}>{settings.siteName}</span>
+          }
         </Link>
 
         {/* Desktop nav */}

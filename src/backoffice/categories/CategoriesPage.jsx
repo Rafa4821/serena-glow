@@ -170,7 +170,7 @@ export default function CategoriesPage() {
                   <td>
                     {c.imageUrl ? (
                       <div className={styles.thumb} style={{ backgroundColor: c.accentColor ?? '#f0e8f0' }}>
-                        <img src={c.imageUrl} alt={c.name} className={styles.thumbImg} style={{ objectFit: c.imageObjectFit || 'cover' }} />
+                        <img src={c.imageUrl} alt={c.name} className={styles.thumbImg} style={{ objectFit: c.imageObjectFit || 'cover' }} loading="lazy" decoding="async" />
                       </div>
                     ) : (
                       <div className={styles.thumbEmpty} style={{ backgroundColor: c.accentColor ?? '#ede6f0' }}>
@@ -276,7 +276,7 @@ export default function CategoriesPage() {
                         <label className={styles.fitOption}>
                           <input type="radio" name="imageObjectFit" value="cover" checked={(form.imageObjectFit || 'cover') === 'cover'} onChange={handleField} />
                           <div className={styles.fitPreview} style={{ backgroundColor: form.accentColor ?? '#ede6f0' }}>
-                            <img src={form.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={form.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" decoding="async" />
                           </div>
                           <span>Cover</span>
                           <small>Recorta y llena (fotos)</small>
@@ -284,7 +284,7 @@ export default function CategoriesPage() {
                         <label className={styles.fitOption}>
                           <input type="radio" name="imageObjectFit" value="contain" checked={form.imageObjectFit === 'contain'} onChange={handleField} />
                           <div className={styles.fitPreview} style={{ backgroundColor: form.accentColor ?? '#ede6f0' }}>
-                            <img src={form.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '8px' }} />
+                            <img src={form.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '8px' }} loading="lazy" decoding="async" />
                           </div>
                           <span>Contain</span>
                           <small>Muestra completa (logos)</small>
