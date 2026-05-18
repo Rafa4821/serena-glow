@@ -191,6 +191,42 @@ export const HELP_CONTENT = {
     ],
   },
 
+  '/admin/novedades': {
+    title: 'Novedades',
+    icon: '✨',
+    intro: 'Configura la página /novedades, la vitrina de lo más nuevo de Serena Glow. El contenido se construye automáticamente importando productos recientes, artículos del blog y galería. Solo necesitas configurar la campaña y guardar.',
+    items: [
+      {
+        heading: 'Campaña principal (hero)',
+        text: 'Es el banner grande que aparece arriba de todo. Escribe un badge corto (ej. "✦ Nueva temporada"), un título impactante, un subtítulo y el texto + link del botón CTA. Si pegas una URL de imagen, se usa como fondo con overlay oscuro. Si no, se usa el color sólido que elijas con el selector de color.',
+      },
+      {
+        heading: 'Secciones visibles',
+        text: 'Activa o desactiva cada bloque de la página con los toggles: Nuevos productos, Selección especial, Artículos del blog y Galería de belleza. Los cambios se aplican al guardar.',
+      },
+      {
+        heading: 'Nuevos productos (automático)',
+        text: 'Muestra automáticamente los últimos X productos publicados ordenados por fecha de creación. Elige cuántos mostrar: 4, 6, 8 o 12. No necesitas hacer nada más — se actualiza solo cuando publicas nuevos productos.',
+      },
+      {
+        heading: 'Selección especial (manual)',
+        text: 'Fija productos específicos que quieras destacar. Usa el buscador para filtrar por nombre o categoría, y haz clic en cada producto para marcarlo/desmarcarlo. Aparecen en la página en el orden en que los seleccionas.',
+      },
+      {
+        heading: 'Artículos del blog (automático)',
+        text: 'Muestra las últimas 3 entradas publicadas del blog. Se actualiza automáticamente cuando publicas nuevos artículos en el módulo Blog.',
+      },
+      {
+        heading: 'Galería de belleza (automático)',
+        text: 'Muestra hasta 6 imágenes de la galería. La primera imagen ocupa el doble de espacio (posición destacada). Se actualiza automáticamente con las imágenes del módulo Medios/Galería.',
+      },
+      {
+        heading: 'Vista previa lateral',
+        text: 'El panel derecho muestra una vista previa del banner con el color/imagen de fondo y el título configurado. También muestra qué secciones están activas. El botón "Ver página de novedades →" abre /novedades en una nueva pestaña para ver el resultado real.',
+      },
+    ],
+  },
+
   '/admin/blog': {
     title: 'Blog',
     icon: '📝',

@@ -46,9 +46,10 @@ function getDefault(slot) {
 }
 
 export default function BannersPage() {
-  const [data,    setData]    = useState({})
-  const [loading, setLoading] = useState(true)
-  const [saving,  setSaving]  = useState(null)
+  const [data,      setData]      = useState({})
+  const [loading,   setLoading]   = useState(true)
+  const [saving,    setSaving]    = useState(null)
+  const [collapsed, setCollapsed] = useState({})
 
   useEffect(() => {
     async function fetch() {
@@ -124,6 +125,8 @@ export default function BannersPage() {
     }
   }
 
+  function toggleCollapse(id) { setCollapsed(c => ({ ...c, [id]: !c[id] })) }
+
   if (loading) return <div className={adminStyles.loadingRow}>Cargando…</div>
 
   return (
@@ -151,20 +154,34 @@ export default function BannersPage() {
                   <h2 className={styles.bannerTitle}>{slot.label}</h2>
                   <span className={styles.pageBadge}>{slot.page}</span>
                 </div>
-                <label className={styles.toggleLabel}>
-                  <input
-                    type="checkbox"
-                    checked={!!d.active}
-                    onChange={e => setField(slot.id, 'active', e.target.checked)}
-                    className={styles.toggleInput}
-                  />
-                  <span className={styles.toggleTrack}>
-                    <span className={styles.toggleThumb} />
-                  </span>
-                  <span className={styles.toggleText}>{d.active ? 'Activo' : 'Inactivo'}</span>
-                </label>
+                <div className={styles.cardHeaderRight}>
+                  {collapsed[slot.id] && d.imageUrl && (
+                    <img src={d.imageUrl} alt="" className={styles.headerThumb} />
+                  )}
+                  <label className={styles.toggleLabel}>
+                    <input
+                      type="checkbox"
+                      checked={!!d.active}
+                      onChange={e => setField(slot.id, 'active', e.target.checked)}
+                      className={styles.toggleInput}
+                    />
+                    <span className={styles.toggleTrack}>
+                      <span className={styles.toggleThumb} />
+                    </span>
+                    <span className={styles.toggleText}>{d.active ? 'Activo' : 'Inactivo'}</span>
+                  </label>
+                  <button
+                    type="button"
+                    className={styles.collapseBtn}
+                    onClick={() => toggleCollapse(slot.id)}
+                    title={collapsed[slot.id] ? 'Expandir' : 'Contraer'}
+                  >
+                    {collapsed[slot.id] ? <ExpandIcon /> : <CollapseIcon />}
+                  </button>
+                </div>
               </div>
 
+              {!collapsed[slot.id] && (<>
               {/* ── Type selector ── */}
               <div className={styles.typeRow}>
                 <span className={styles.typeLabel}>Tipo de banner</span>
@@ -303,6 +320,9 @@ export default function BannersPage() {
                                 folder="banners"
                                 value={slide.imageUrl || null}
                                 storagePath={slide.imagePath || null}
+                                showLibraryPicker
+                                registerInLibrary
+                                maxPx={2400}
                                 onChange={r => {
                                   updateSlide(slot.id, si, 'imageUrl',  r?.url  ?? '')
                                   updateSlide(slot.id, si, 'imagePath', r?.path ?? '')
@@ -371,6 +391,9 @@ export default function BannersPage() {
                     folder="banners"
                     value={d.imageUrl || null}
                     storagePath={d.imagePath || null}
+                    showLibraryPicker
+                    registerInLibrary
+                    maxPx={2400}
                     onChange={r => {
                       setField(slot.id, 'imageUrl',  r?.url  ?? '')
                       setField(slot.id, 'imagePath', r?.path ?? '')
@@ -463,6 +486,7 @@ export default function BannersPage() {
                   {saving === slot.id ? 'Guardando…' : 'Guardar banner'}
                 </button>
               </div>
+              </>)}
             </div>
           )
         })}
@@ -470,3 +494,6 @@ export default function BannersPage() {
     </div>
   )
 }
+
+function CollapseIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg> }
+function ExpandIcon()   { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg> }

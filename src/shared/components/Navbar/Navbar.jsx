@@ -8,12 +8,17 @@ export default function Navbar() {
   const [scrolled,   setScrolled]   = useState(false)
   const [menuOpen,   setMenuOpen]   = useState(false)
   const location = useLocation()
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    const logoH = settings.logoUrl ? (Number(settings.logoWidth) || 40) : 0
+    const navH  = Math.max(72, logoH + 20)
+    document.documentElement.style.setProperty('--navbar-height', `${navH}px`)
+  }, [settings.logoUrl, settings.logoWidth])
 
   useEffect(() => { setMenuOpen(false) }, [location])
 
@@ -22,10 +27,49 @@ export default function Navbar() {
       <div className={`container ${styles.inner}`}>
         {/* Logo */}
         <Link to="/" className={styles.brand}>
-          {settings.logoUrl
-            ? <img src={settings.logoUrl} alt={settings.siteName} className={styles.logoImg} loading="eager" fetchpriority="high" />
-            : <span className={styles.brandText}>{settings.siteName}</span>
-          }
+          {(settings.logoUrl || settings.logoText) ? (
+            <div
+              className={styles.logoWrap}
+              style={{
+                flexDirection: (settings.logoLayout ?? 'row') === 'column' ? 'column' : 'row',
+                gap: (settings.logoUrl && settings.logoText)
+                  ? ((settings.logoLayout ?? 'row') === 'column' ? '4px' : '10px')
+                  : 0,
+              }}
+            >
+              {settings.logoUrl && (
+                <img
+                  src={settings.logoUrl}
+                  alt={settings.siteName}
+                  className={styles.logoImg}
+                  style={{
+                    height: settings.logoWidth ? `${settings.logoWidth}px` : '40px',
+                    order: (settings.logoTextPosition ?? 'right') === 'left' ? 2 : 1,
+                  }}
+                  loading="eager"
+                  fetchpriority="high"
+                />
+              )}
+              {settings.logoText && (
+                <span
+                  className={styles.logoText}
+                  style={{
+                    order:         (settings.logoTextPosition ?? 'right') === 'left' ? 1 : 2,
+                    fontFamily:    (settings.logoTextFont ?? 'serif') === 'sans' ? 'var(--font-sans)' : 'var(--font-serif)',
+                    fontSize:      `${settings.logoTextSize ?? 20}px`,
+                    fontWeight:    settings.logoTextWeight ?? 400,
+                    fontStyle:     settings.logoTextStyle  ?? 'normal',
+                    color:         settings.logoTextColor  || 'var(--color-text-main)',
+                    letterSpacing: settings.logoTextLetterSpacing ? `${settings.logoTextLetterSpacing}em` : undefined,
+                  }}
+                >
+                  {settings.logoText}
+                </span>
+              )}
+            </div>
+          ) : (
+            <span className={styles.brandText}>{settings.siteName}</span>
+          )}
         </Link>
 
         {/* Desktop nav */}

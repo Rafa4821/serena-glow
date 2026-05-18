@@ -19,7 +19,7 @@ const TABS = [
 
 /* Keys saved per tab (for partial merge) */
 const TAB_KEYS = {
-  general:  ['siteName','tagline','footerText','logoUrl','logoPath'],
+  general:  ['siteName','tagline','footerText','logoUrl','logoPath','logoWidth','logoText','logoTextPosition','logoTextFont','logoTextSize','logoTextWeight','logoTextStyle','logoTextColor','logoTextLetterSpacing','logoLayout'],
   hero:     ['heroTitle','heroSubtitle','heroCta','heroSecondCta'],
   contact:  ['whatsappNumber','whatsappMessage','email','phone','address','openingHours'],
   social:   ['instagramUrl','facebookUrl','tiktokUrl','youtubeUrl','pinterestUrl'],
@@ -115,7 +115,7 @@ export default function SettingsPage() {
         ))}
       </div>
 
-      {/* ── General ──────────────────────────────────── */}
+      {/* ── General ──────────────────────────────────────────── */}
       {activeTab === 'general' && (
         <div className={styles.section}>
           <div className={styles.fieldsGrid}>
@@ -129,21 +129,145 @@ export default function SettingsPage() {
             </div>
             <div className={`${adminStyles.field} ${styles.fullWidth}`}>
               <label className={adminStyles.label}>Texto del footer</label>
-              <input type="text" value={f('footerText')} onChange={e => set('footerText', e.target.value)} className={adminStyles.input} placeholder="© 2025 Serena Glow. Todos los derechos reservados." />
-            </div>
-            <div className={`${adminStyles.field} ${styles.fullWidth}`}>
-              <ImageUploader
-                label="Logo del sitio"
-                folder="brand"
-                value={f('logoUrl') || null}
-                storagePath={f('logoPath') || null}
-                onChange={r => { set('logoUrl', r?.url ?? ''); set('logoPath', r?.path ?? '') }}
-                showLibraryPicker
-                registerInLibrary
-              />
-              <Hint text="PNG transparente recomendado. Se muestra en la barra de navegación. Tamaño ideal: 180×50 px." />
+              <input type="text" value={f('footerText')} onChange={e => set('footerText', e.target.value)} className={adminStyles.input} placeholder="\u00a9 2025 Serena Glow. Todos los derechos reservados." />
             </div>
           </div>
+
+          {/* ── Logo y marca ──────────────────────────── */}
+          <div className={styles.logoSection}>
+            <p className={styles.logoSectionTitle}>Logo y marca</p>
+            <div className={styles.logoLayout}>
+
+              {/* ── Controls column ── */}
+              <div className={styles.logoControls}>
+
+                {/* Block 1: Imagen */}
+                <div className={styles.logoBlock}>
+                  <p className={styles.logoBlockTitle}>Imagen del logo</p>
+                  <ImageUploader
+                    label=""
+                    folder="brand"
+                    value={f('logoUrl') || null}
+                    storagePath={f('logoPath') || null}
+                    onChange={r => { set('logoUrl', r?.url ?? ''); set('logoPath', r?.path ?? '') }}
+                    showLibraryPicker
+                    registerInLibrary
+                  />
+                  <Hint text="PNG con fondo transparente recomendado." />
+                  <div className={styles.sliderRow}>
+                    <span className={styles.sliderLabel}>Tamaño</span>
+                    <input type="range" className={styles.slider} min={20} max={140} value={fn('logoWidth', 40)} onChange={e => set('logoWidth', Number(e.target.value))} />
+                    <span className={styles.sliderValue}>{fn('logoWidth', 40)}px</span>
+                  </div>
+                </div>
+
+                {/* Block 2: Texto */}
+                <div className={styles.logoBlock}>
+                  <p className={styles.logoBlockTitle}>Texto junto al logo</p>
+                  <div className={adminStyles.field}>
+                    <input type="text" value={f('logoText')} onChange={e => set('logoText', e.target.value)} className={adminStyles.input} placeholder="Ej: Serena Glow" />
+                    <Hint text="Opcional. Se muestra junto a la imagen en la barra de navegación." />
+                  </div>
+                  <div className={styles.logoGrid2}>
+                    <div>
+                      <span className={styles.logoMiniLabel}>Posición del texto</span>
+                      <div className={styles.radioGroup}>
+                        {[['left', 'Izquierda'], ['right', 'Derecha']].map(([v, l]) => (
+                          <label key={v} className={styles.radioOpt}>
+                            <input type="radio" name="logoTextPosition" checked={fn('logoTextPosition', 'right') === v} onChange={() => set('logoTextPosition', v)} />{l}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <span className={styles.logoMiniLabel}>Disposición</span>
+                      <div className={styles.radioGroup}>
+                        {[['row', 'Horizontal'], ['column', 'Vertical']].map(([v, l]) => (
+                          <label key={v} className={styles.radioOpt}>
+                            <input type="radio" name="logoLayout" checked={fn('logoLayout', 'row') === v} onChange={() => set('logoLayout', v)} />{l}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Block 3: Tipografía */}
+                <div className={styles.logoBlock}>
+                  <p className={styles.logoBlockTitle}>Tipografía del texto</p>
+                  <div className={styles.logoGrid2}>
+                    <div className={adminStyles.field}>
+                      <label className={styles.logoMiniLabel}>Fuente</label>
+                      <select value={fn('logoTextFont', 'serif')} onChange={e => set('logoTextFont', e.target.value)} className={adminStyles.select}>
+                        <option value="serif">Cormorant Garamond</option>
+                        <option value="sans">Jost</option>
+                      </select>
+                    </div>
+                    <div className={adminStyles.field}>
+                      <label className={styles.logoMiniLabel}>Peso</label>
+                      <select value={fn('logoTextWeight', 400)} onChange={e => set('logoTextWeight', Number(e.target.value))} className={adminStyles.select}>
+                        <option value={300}>300 · Light</option>
+                        <option value={400}>400 · Normal</option>
+                        <option value={500}>500 · Medium</option>
+                        <option value={600}>600 · Semi Bold</option>
+                        <option value={700}>700 · Bold</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className={styles.sliderRow}>
+                    <span className={styles.sliderLabel}>Tamaño</span>
+                    <input type="range" className={styles.slider} min={12} max={48} value={fn('logoTextSize', 20)} onChange={e => set('logoTextSize', Number(e.target.value))} />
+                    <span className={styles.sliderValue}>{fn('logoTextSize', 20)}px</span>
+                  </div>
+                  <div className={styles.sliderRow}>
+                    <span className={styles.sliderLabel}>Espaciado</span>
+                    <input type="range" className={styles.slider} min={0} max={30} step={1} value={Math.round(Number(fn('logoTextLetterSpacing', 0)) * 100)} onChange={e => set('logoTextLetterSpacing', Number(e.target.value) / 100)} />
+                    <span className={styles.sliderValue}>{Number(fn('logoTextLetterSpacing', 0)).toFixed(2)}em</span>
+                  </div>
+                  <div className={styles.logoGrid2} style={{ marginTop: 'var(--space-3)' }}>
+                    <div>
+                      <span className={styles.logoMiniLabel}>Estilo</span>
+                      <div className={styles.radioGroup}>
+                        {[['normal', 'Normal'], ['italic', 'Italic']].map(([v, l]) => (
+                          <label key={v} className={styles.radioOpt}>
+                            <input type="radio" name="logoTextStyle" checked={fn('logoTextStyle', 'normal') === v} onChange={() => set('logoTextStyle', v)} />
+                            <span style={v === 'italic' ? { fontStyle: 'italic' } : {}}>{l}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <span className={styles.logoMiniLabel}>Color del texto</span>
+                      <div className={styles.colorPickerRow}>
+                        <input type="color" value={f('logoTextColor') || '#2f2a33'} onChange={e => set('logoTextColor', e.target.value)} className={styles.colorPicker} />
+                        <input type="text" value={f('logoTextColor') || '#2f2a33'} onChange={e => set('logoTextColor', e.target.value)} className={`${adminStyles.input} ${styles.colorHexInput}`} maxLength={7} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* ── Preview column ── */}
+              <div className={styles.logoPreviewCol}>
+                <p className={styles.logoBlockTitle}>Vista previa</p>
+                <div className={styles.logoPreviewBox}>
+                  <div className={styles.logoPreviewNavbar}>
+                    <LogoPreview settings={settings} />
+                    <div className={styles.logoPreviewNav}>
+                      <span>Inicio</span><span>Catálogo</span><span>Blog</span>
+                    </div>
+                  </div>
+                  <div className={styles.logoPreviewSite}>
+                    ↑ Así se verá en el navbar
+                  </div>
+                </div>
+                <Hint text="Se actualiza en tiempo real según los cambios." />
+              </div>
+
+            </div>
+          </div>
+
           <SaveBar onSave={() => saveTab('general')} saving={isSaving} />
         </div>
       )}
@@ -433,6 +557,40 @@ function SaveBar({ onSave, saving }) {
       <button type="button" onClick={onSave} disabled={saving} className={adminStyles.btnPrimary}>
         {saving ? 'Guardando…' : '✓ Guardar sección'}
       </button>
+    </div>
+  )
+}
+
+function LogoPreview({ settings }) {
+  const logoUrl  = settings.logoUrl  || null
+  const logoText = settings.logoText || ''
+  if (!logoUrl && !logoText) {
+    return (
+      <span style={{ fontFamily: 'var(--font-serif)', fontSize: '18px', fontWeight: 400, color: 'var(--color-text-main)', whiteSpace: 'nowrap' }}>
+        {settings.siteName || 'Serena Glow'}
+      </span>
+    )
+  }
+  const layout      = settings.logoLayout          ?? 'row'
+  const textPos     = settings.logoTextPosition    ?? 'right'
+  const textFont    = (settings.logoTextFont ?? 'serif') === 'sans' ? 'var(--font-sans)' : 'var(--font-serif)'
+  const textSize    = Number(settings.logoTextSize    ?? 20)
+  const textWeight  = Number(settings.logoTextWeight  ?? 400)
+  const textStyle   = settings.logoTextStyle         ?? 'normal'
+  const textColor   = settings.logoTextColor         || 'var(--color-text-main)'
+  const textLS      = Number(settings.logoTextLetterSpacing ?? 0)
+  const logoWidth   = Number(settings.logoWidth ?? 40)
+  const hasGap      = !!(logoUrl && logoText)
+  return (
+    <div style={{ display: 'flex', flexDirection: layout === 'column' ? 'column' : 'row', alignItems: 'center', gap: hasGap ? (layout === 'column' ? '4px' : '10px') : 0 }}>
+      {logoUrl && (
+        <img src={logoUrl} alt="" style={{ height: `${logoWidth}px`, width: 'auto', maxWidth: '200px', objectFit: 'contain', display: 'block', order: textPos === 'left' ? 2 : 1, flexShrink: 0 }} />
+      )}
+      {logoText && (
+        <span style={{ order: textPos === 'left' ? 1 : 2, fontFamily: textFont, fontSize: `${textSize}px`, fontWeight: textWeight, fontStyle: textStyle, color: textColor, letterSpacing: textLS ? `${textLS}em` : undefined, whiteSpace: 'nowrap', lineHeight: 1.1 }}>
+          {logoText}
+        </span>
+      )}
     </div>
   )
 }

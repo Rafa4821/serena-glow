@@ -7,7 +7,9 @@ function esc(s) {
 
 function inline(s) {
   return esc(s)
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy" />')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/~~(.+?)~~/g,     '<s>$1</s>')
     .replace(/\*(.+?)\*/g,     '<em>$1</em>')
     .replace(/`(.+?)`/g,       '<code>$1</code>')
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
@@ -22,6 +24,7 @@ export function parseMarkdown(text) {
   while (i < lines.length) {
     const raw = lines[i]
 
+    if (/^#### /.test(raw))        { blocks.push(`<h4>${inline(raw.slice(5))}</h4>`); i++; continue }
     if (/^### /.test(raw))         { blocks.push(`<h3>${inline(raw.slice(4))}</h3>`); i++; continue }
     if (/^## /.test(raw))          { blocks.push(`<h2>${inline(raw.slice(3))}</h2>`); i++; continue }
     if (/^# /.test(raw))           { blocks.push(`<h1>${inline(raw.slice(2))}</h1>`); i++; continue }

@@ -80,10 +80,13 @@ function detectWebPSupport(canvas) {
  *   height:   number, — catalog pixel height
  * }>}
  */
-export async function convertImage(file) {
+export async function convertImage(file, opts = {}) {
+  const maxPx   = opts.maxPx   ?? CATALOG_MAX
+  const quality = opts.quality ?? CATALOG_Q
+
   const img = await loadImage(file)
 
-  const catDims   = scaleDims(img, CATALOG_MAX)
+  const catDims   = scaleDims(img, maxPx)
   const thumbDims = scaleDims(img, THUMB_MAX)
 
   const catCanvas   = drawCanvas(img, catDims.w,   catDims.h)
@@ -92,7 +95,7 @@ export async function convertImage(file) {
   const supportsWebP = detectWebPSupport(catCanvas)
   const mime    = supportsWebP ? 'image/webp' : 'image/png'
   const ext     = supportsWebP ? 'webp'       : 'png'
-  const catQ    = supportsWebP ? CATALOG_Q    : undefined
+  const catQ    = supportsWebP ? quality      : undefined
   const thumbQ  = supportsWebP ? THUMB_Q      : undefined
 
   const [catalog, thumb] = await Promise.all([

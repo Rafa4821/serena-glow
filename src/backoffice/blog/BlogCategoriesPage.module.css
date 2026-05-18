@@ -1,0 +1,170 @@
+.page { max-width: 860px; }
+
+/* ── Back button ── */
+.topBar { margin-bottom: var(--space-2); }
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding: 0.3rem 0.75rem 0.3rem 0.5rem;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+.backBtn:hover {
+  color: var(--color-mauve-soft);
+  border-color: rgba(183,164,199,0.35);
+  background: rgba(183,164,199,0.07);
+}
+
+/* ── Create form card ── */
+.createCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.createTitle {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--space-3);
+  align-items: end;
+}
+
+.formGroup { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.fieldLabel {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.formActions { display: flex; align-items: flex-end; }
+
+/* ── List ── */
+.listBox {
+  background: var(--color-surface);
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.skRow {
+  height: 68px;
+  border-bottom: 1px solid var(--color-gray-light);
+  border-radius: 0;
+}
+
+.catRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-gray-light);
+  transition: background var(--transition-fast);
+  min-height: 68px;
+}
+.catRow:last-child { border-bottom: none; }
+.catRow:hover { background: var(--color-white-broken); }
+
+.catInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.catDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-mauve-soft);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.catName {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-main);
+  margin: 0 0 2px;
+}
+
+.catSlug {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.catActions { display: flex; gap: var(--space-2); flex-shrink: 0; }
+
+/* ── Edit row (inline) ── */
+.editRowInner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.editFields { display: flex; gap: var(--space-3); flex: 1; flex-wrap: wrap; }
+.editInput  { flex: 1; min-width: 150px; }
+.editActions { display: flex; gap: var(--space-2); flex-shrink: 0; }
+
+/* ── Empty / migrate ── */
+.emptyWrap { display: flex; flex-direction: column; align-items: center; }
+
+.migrateWrap {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.migrateBtn {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 1px dashed var(--color-gray-light);
+  border-radius: var(--radius-full);
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+.migrateBtn:hover { border-color: var(--color-mauve-soft); color: var(--color-mauve-soft); }
+.migrateBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Hint ── */
+.hint {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin: var(--space-3) 0 0;
+  line-height: 1.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .formRow { grid-template-columns: 1fr; }
+  .catRow  { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
+}

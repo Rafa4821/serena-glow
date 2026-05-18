@@ -13,6 +13,12 @@
   color: var(--color-text-muted);
 }
 
+.dualEmpty {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
 .uploadArea {
   display: flex;
   flex-direction: column;
@@ -103,38 +109,68 @@
   flex-wrap: wrap;
 }
 
+.libraryAreaBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 140px;
+  border: 2px dashed var(--color-gray-light);
+  border-radius: var(--radius-lg);
+  background: var(--color-white-broken);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  transition: all var(--transition-base);
+}
+.libraryAreaBtn:hover:not(:disabled) {
+  border-color: var(--color-mauve-soft);
+  color: var(--color-mauve-soft);
+  background: var(--color-beige-rose);
+}
+.libraryAreaBtn small {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-light);
+}
+.libraryAreaBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
 .changeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--font-sans);
   font-size: var(--font-size-xs);
+  font-weight: 500;
   color: var(--color-mauve-soft);
-  background: none;
-  border: none;
+  background: rgba(183,164,199,0.1);
+  border: 1px solid rgba(183,164,199,0.3);
+  border-radius: var(--radius-full);
   cursor: pointer;
-  padding: 0;
-  text-align: left;
-  text-decoration: underline;
-  transition: color var(--transition-base);
+  padding: 0.3rem 0.75rem;
+  transition: all var(--transition-base);
 }
-
-.changeBtn:hover:not(:disabled) { color: var(--color-primary-dark); }
+.changeBtn:hover:not(:disabled) { background: var(--color-mauve-soft); color: #fff; }
 .changeBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .libraryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--font-sans);
   font-size: var(--font-size-xs);
+  font-weight: 500;
   color: var(--color-text-muted);
   background: var(--color-white-broken);
   border: 1px solid var(--color-gray-light);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   cursor: pointer;
-  padding: 3px var(--space-2);
+  padding: 0.3rem 0.75rem;
   transition: all var(--transition-base);
 }
-
-.libraryBtn:hover:not(:disabled) {
-  border-color: var(--color-mauve-soft);
-  color: var(--color-mauve-soft);
-}
+.libraryBtn:hover:not(:disabled) { border-color: var(--color-mauve-soft); color: var(--color-mauve-soft); }
 .libraryBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .error {

@@ -62,7 +62,8 @@ export default function MediaPage() {
       try {
         setUploadStatus(UPLOAD_STATUS.CONVERTING)
         setProgress(0)
-        const { catalog, thumb, ext, mimeType, width, height } = await convertImage(file)
+        const uploadOpts = folder === 'banners' ? { maxPx: 2400, quality: 0.88 } : {}
+        const { catalog, thumb, ext, mimeType, width, height } = await convertImage(file, uploadOpts)
 
         setUploadStatus(UPLOAD_STATUS.UPLOADING)
         setProgress(0)

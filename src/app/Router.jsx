@@ -6,6 +6,7 @@ import PageSpinner from '@/shared/components/ui/PageSpinner'
 const HomePage       = lazy(() => import('@/home/HomePage'))
 const BlogPage       = lazy(() => import('@/blog/BlogPage'))
 const BlogPostPage   = lazy(() => import('@/blog/BlogPostPage'))
+const NovedadesPage  = lazy(() => import('@/novedades/NovedadesPage'))
 const CatalogPage    = lazy(() => import('@/catalog/CatalogPage'))
 const ProductPage    = lazy(() => import('@/catalog/ProductPage'))
 const ContactPage    = lazy(() => import('@/contact/ContactPage'))
@@ -22,6 +23,8 @@ const BackofficeSettings   = lazy(() => import('@/backoffice/settings/SettingsPa
 const BackofficeMedia      = lazy(() => import('@/backoffice/media/MediaPage'))
 const BackofficeBlogPosts  = lazy(() => import('@/backoffice/blog/BlogPostsPage'))
 const BackofficeBlogForm   = lazy(() => import('@/backoffice/blog/BlogPostFormPage'))
+const BackofficeBlogCats   = lazy(() => import('@/backoffice/blog/BlogCategoriesPage'))
+const BackofficeNovedades  = lazy(() => import('@/backoffice/novedades/BackofficeNovedadesPage'))
 const LoginPage            = lazy(() => import('@/backoffice/auth/LoginPage'))
 
 function RequireAdmin({ children }) {
@@ -42,7 +45,7 @@ export default function Router() {
         <Route path="/producto/:slug"  element={<ProductPage />} />
         <Route path="/contacto"        element={<ContactPage />} />
         <Route path="/nosotras"        element={<NosotrasPage />} />
-        <Route path="/novedades"       element={<CatalogPage />} />
+        <Route path="/novedades"        element={<NovedadesPage />} />
         <Route path="/blog"             element={<BlogPage />} />
         <Route path="/blog/:slug"        element={<BlogPostPage />} />
 
@@ -68,7 +71,9 @@ export default function Router() {
           <Route path="media"            element={<BackofficeMedia />} />
           <Route path="blog"             element={<BackofficeBlogPosts />} />
           <Route path="blog/nuevo"       element={<BackofficeBlogForm />} />
+          <Route path="blog/categorias"  element={<BackofficeBlogCats />} />
           <Route path="blog/:id/editar"  element={<BackofficeBlogForm />} />
+          <Route path="novedades"         element={<BackofficeNovedades />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />

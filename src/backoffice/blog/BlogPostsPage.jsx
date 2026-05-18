@@ -70,7 +70,10 @@ export default function BlogPostsPage() {
           <h1 className={adminStyles.pageTitle}>Blog</h1>
           <p className={adminStyles.pageSub}>{counts.total} entradas · {counts.published} publicadas</p>
         </div>
-        <Link to="/admin/blog/nuevo" className={adminStyles.btnPrimary}>+ Nueva entrada</Link>
+        <div style={{display:'flex',gap:'var(--space-3)',flexWrap:'wrap'}}>
+          <Link to="/admin/blog/categorias" className={adminStyles.btnSecondary}>Categorías</Link>
+          <Link to="/admin/blog/nuevo"      className={adminStyles.btnPrimary}>+ Nueva entrada</Link>
+        </div>
       </div>
 
       {/* Stats */}

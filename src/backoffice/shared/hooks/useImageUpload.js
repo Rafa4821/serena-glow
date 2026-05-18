@@ -5,7 +5,7 @@ import { convertImage } from '@/shared/utils/imageConverter'
 
 const MAX_SIZE_MB = 20
 
-export function useImageUpload(folder = 'uploads') {
+export function useImageUpload(folder = 'uploads', { maxPx } = {}) {
   const [uploading, setUploading] = useState(false)
   const [progress,  setProgress]  = useState(0)
   const [error,     setError]     = useState(null)
@@ -23,7 +23,7 @@ export function useImageUpload(folder = 'uploads') {
     setProgress(0)
 
     try {
-      const { catalog: blob, ext, mimeType } = await convertImage(file)
+      const { catalog: blob, ext, mimeType } = await convertImage(file, maxPx ? { maxPx } : {})
 
       const filename   = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
       const storageRef = ref(storage, filename)

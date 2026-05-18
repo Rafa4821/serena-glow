@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: var(--z-sticky);
-  height: var(--navbar-height);
+  min-height: var(--navbar-height);
   background: rgba(252, 250, 251, 0.72);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -24,6 +24,8 @@
   justify-content: space-between;
   height: 100%;
   gap: var(--space-6);
+  padding: 10px 0;
+  box-sizing: border-box;
 }
 
 /* Brand */
@@ -40,12 +42,24 @@
   letter-spacing: 0.02em;
 }
 
+.logoWrap {
+  display: flex;
+  align-items: center;
+}
+
 .logoImg {
   height: 40px;
   width: auto;
-  max-width: 160px;
+  max-width: 280px;
   object-fit: contain;
   display: block;
+  flex-shrink: 0;
+}
+
+.logoText {
+  white-space: nowrap;
+  line-height: 1.1;
+  flex-shrink: 0;
 }
 
 /* Desktop nav */
