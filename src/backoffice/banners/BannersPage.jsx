@@ -405,20 +405,18 @@ export default function BannersPage() {
                     <p className={styles.styleTitle}>Estilo</p>
 
                     <div className={styles.styleRow}>
-                      <span className={styles.styleLabel}>Altura <FieldHint text="Altura del banner. 100vh = ocupa toda la pantalla (ideal para el hero principal). 70vh/50vh/40vh para banners más compactos en otras secciones." /></span>
-                      <div className={styles.radioGroup}>
-                        {HEIGHT_OPTIONS.map(h => (
-                          <label key={h} className={styles.radioLabel}>
-                            <input
-                              type="radio"
-                              name={`h-${slot.id}`}
-                              value={h}
-                              checked={(d.minHeight ?? slot.defaultHeight) === h}
-                              onChange={() => setField(slot.id, 'minHeight', h)}
-                            />
-                            {h}
-                          </label>
-                        ))}
+                      <span className={styles.styleLabel}>Altura <FieldHint text="Altura del banner. 100vh = pantalla completa (ideal para el hero). Valores menores para banners más compactos." /></span>
+                      <div className={styles.sliderWrap}>
+                        <input
+                          type="range"
+                          min="20"
+                          max="100"
+                          step="5"
+                          value={parseInt(d.minHeight ?? slot.defaultHeight) || 50}
+                          onChange={e => setField(slot.id, 'minHeight', `${e.target.value}vh`)}
+                          className={styles.slider}
+                        />
+                        <span className={styles.sliderVal}>{parseInt(d.minHeight ?? slot.defaultHeight) || 50}vh</span>
                       </div>
                     </div>
 
@@ -477,6 +475,9 @@ export default function BannersPage() {
                 </div>
               </div>
 
+              {/* ── Vista previa ── */}
+              <BannerPreview d={d} slot={slot} />
+
               <div className={styles.bannerFooter}>
                 <button
                   className={adminStyles.btnPrimary}
@@ -491,6 +492,53 @@ export default function BannersPage() {
           )
         })}
       </div>
+    </div>
+  )
+}
+
+function BannerPreview({ d, slot }) {
+  const hasImage    = !!d.imageUrl
+  const overlay     = d.overlayOpacity ?? 0.3
+  const isLight     = (d.textColor ?? 'light') === 'light'
+  const textColor   = isLight ? '#fff' : '#1a1a1a'
+  const align       = d.contentAlign ?? 'left'
+  const alignMap    = { left: 'flex-start', center: 'center', right: 'flex-end' }
+  const textAlign   = align
+  const heightLabel = d.minHeight ?? slot.defaultHeight
+  const vhVal       = parseInt(heightLabel) || 50
+  const previewH    = Math.max(90, Math.round(vhVal * 2.2))
+
+  return (
+    <div className={styles.previewSection}>
+      <p className={styles.previewSectionTitle}>Vista previa</p>
+      <div
+        className={styles.previewBg}
+        style={{
+          height: `${previewH}px`,
+          backgroundImage: hasImage ? `url(${d.imageUrl})` : undefined,
+          backgroundColor: hasImage ? undefined : '#d4cdd9',
+        }}
+      >
+        <div className={styles.previewOverlay} style={{ background: `rgba(0,0,0,${overlay})` }} />
+        <div className={styles.previewContent} style={{ alignItems: alignMap[align] ?? 'flex-start', textAlign }}>
+          {d.label && (
+            <span className={styles.previewLabel} style={{ color: textColor }}>{d.label}</span>
+          )}
+          {d.title && (
+            <span className={styles.previewTitle} style={{ color: textColor }}>{d.title.split('\n')[0]}</span>
+          )}
+          {d.subtitle && (
+            <span className={styles.previewSubtitle} style={{ color: textColor }}>{d.subtitle}</span>
+          )}
+          {!hasImage && !d.title && !d.label && (
+            <span style={{ color: 'rgba(255,255,255,0.45)', fontFamily: 'var(--font-sans)', fontSize: '11px' }}>
+              Sin imagen — sube una para ver la vista previa
+            </span>
+          )}
+        </div>
+        <span className={styles.previewBadge}>{heightLabel}</span>
+      </div>
+      <p className={styles.previewHint}>Se actualiza en tiempo real según los cambios.</p>
     </div>
   )
 }

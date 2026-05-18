@@ -396,6 +396,95 @@
   text-align: center;
 }
 
+/* ── Banner Preview ─────────────────────── */
+.previewSection {
+  margin-top: var(--space-6);
+  border-top: 1px solid var(--admin-border, #e8e6ec);
+  padding-top: var(--space-5);
+}
+
+.previewSectionTitle {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.previewBg {
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-gray-light);
+  transition: height 0.2s ease;
+}
+
+.previewOverlay {
+  position: absolute;
+  inset: 0;
+}
+
+.previewContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 16px 24px;
+  z-index: 1;
+}
+
+.previewLabel {
+  font-family: var(--font-serif);
+  font-size: 10px;
+  font-style: italic;
+  letter-spacing: 0.08em;
+}
+
+.previewTitle {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.previewSubtitle {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.previewBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.52);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.previewHint {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: var(--space-3);
+}
+
 /* ── Responsive ────────────────────────── */
 @media (max-width: 640px) {
   .btnRow { grid-template-columns: 1fr 1fr; }
