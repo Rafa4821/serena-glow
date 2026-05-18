@@ -34,6 +34,7 @@ export default function Navbar() {
           <NavLink to="/catalogo"   className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>Catálogo</NavLink>
           <NavLink to="/nosotras"   className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>Nosotras</NavLink>
           <NavLink to="/novedades"  className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>Novedades</NavLink>
+          <NavLink to="/blog"       className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>Blog</NavLink>
           <NavLink to="/contacto"   className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>Contacto</NavLink>
         </nav>
 
@@ -64,6 +65,7 @@ export default function Navbar() {
         <NavLink to="/catalogo"  className={styles.mobileLink}>Catálogo</NavLink>
         <NavLink to="/nosotras"  className={styles.mobileLink}>Nosotras</NavLink>
         <NavLink to="/novedades" className={styles.mobileLink}>Novedades</NavLink>
+        <NavLink to="/blog"      className={styles.mobileLink}>Blog</NavLink>
         <NavLink to="/contacto"  className={styles.mobileLink}>Contacto</NavLink>
         <a
           href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(settings.whatsappMessage)}`}

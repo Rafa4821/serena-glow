@@ -154,27 +154,99 @@ export const HELP_CONTENT = {
   '/admin/mensajes': {
     title: 'Mensajes',
     icon: '💬',
-    intro: 'Aquí llegan todas las consultas enviadas desde el formulario de contacto del sitio. Puedes gestionarlas y responderlas directamente.',
+    intro: 'Aquí llegan todas las consultas enviadas desde el formulario de contacto. Puedes filtrarlas, buscarlas, responderlas y llevar un seguimiento completo desde el panel.',
     items: [
       {
-        heading: 'Estados',
-        text: 'Nuevo: consulta sin revisar (badge en el menú). Leído: ya la viste. Archivado: procesada o descartada. Al abrir un mensaje nuevo, su estado cambia a "Leído" automáticamente.',
+        heading: 'Estadísticas rápidas',
+        text: 'La franja superior muestra en tiempo real: Pendientes, Respondidos, Archivados y Sin leer. Haz clic en cualquier número para filtrar la lista directamente por esa categoría.',
       },
       {
-        heading: 'Filtrar por estado',
-        text: 'Las pestañas superiores (Todos / Nuevos / Leídos / Archivados) te permiten enfocarte en los mensajes que necesitas atender.',
+        heading: 'Estados de los mensajes',
+        text: 'Pendiente: consulta sin atender (el badge del menú lateral lo indica). Respondido: ya gestionada. Archivado: descartada o resuelta. Al abrir un mensaje no leído, se marca como leído automáticamente.',
+      },
+      {
+        heading: 'Búsqueda y filtros',
+        text: 'Usa las pestañas (Todos / Pendientes / Respondidos / Archivados) para segmentar. El campo de búsqueda filtra en tiempo real por nombre, email, teléfono o contenido del mensaje.',
       },
       {
         heading: 'Responder por WhatsApp',
-        text: 'Si el cliente dejó número de teléfono, puedes hacer clic en el botón de WhatsApp para abrir una conversación con el mensaje precompletado.',
+        text: 'Si el cliente dejó su número de teléfono, aparece el botón verde de WhatsApp. Al hacer clic se abre la app con el número del cliente y un mensaje de bienvenida precompletado listo para enviar.',
       },
       {
         heading: 'Responder por email',
-        text: 'El link de email abre tu cliente de correo con el destinatario ya cargado. El cliente siempre deja su email al completar el formulario.',
+        text: 'El botón "Responder por email" abre tu cliente de correo con el destinatario ya cargado. El cliente siempre deja su email al completar el formulario de contacto.',
       },
       {
-        heading: 'Datos del mensaje',
-        text: 'Cada consulta incluye: nombre completo, email, teléfono (si lo completó), el asunto y el texto del mensaje, más la fecha y hora de envío.',
+        heading: 'Notas internas',
+        text: 'Cada mensaje tiene un campo de notas privadas para uso interno. Puedes anotar lo que hablaste con el cliente, compromisos pendientes o cualquier observación. Las notas se guardan en Firestore y solo son visibles en el backoffice.',
+      },
+      {
+        heading: 'Exportar CSV',
+        text: 'El botón "Exportar CSV" descarga un archivo con todos los mensajes del filtro activo: nombre, email, teléfono, texto, estado, notas y fecha. Compatible con Excel y Google Sheets. Útil para reportes o seguimiento externo.',
+      },
+      {
+        heading: 'Vista móvil',
+        text: 'En pantallas pequeñas, la lista y el detalle del mensaje ocupan cada uno toda la pantalla. Al abrir un mensaje aparece el botón "← Volver" para regresar a la lista.',
+      },
+    ],
+  },
+
+  '/admin/blog': {
+    title: 'Blog',
+    icon: '📝',
+    intro: 'Gestiona todas las entradas del blog de Serena Glow. Puedes crear artículos sobre cuidado de la piel, tutoriales de maquillaje, novedades y más. El contenido se escribe en Markdown para un formato flexible.',
+    items: [
+      {
+        heading: 'Crear una entrada',
+        text: 'Haz clic en "+ Nueva entrada" para abrir el editor. Rellena el título, el extracto (aparece en la tarjeta del listado) y el contenido. El slug de URL se genera automáticamente desde el título, pero puedes editarlo.',
+      },
+      {
+        heading: 'Editor de contenido (Markdown)',
+        text: 'El contenido se escribe en Markdown. Usa los botones de la barra de herramientas para insertar H2, H3, negrita (**texto**), cursiva (*texto*), listas (- ítem), citas (> texto) y separadores (---). El botón "Vista previa" muestra cómo quedará renderizado.',
+      },
+      {
+        heading: 'Estados del artículo',
+        text: 'Borrador: solo visible en el backoffice. Publicado: visible en /blog para todos los visitantes. Archivado: ocultado sin eliminar. Usa "Guardar borrador" para trabajar sin publicar, y "Publicar" para hacer la entrada visible inmediatamente.',
+      },
+      {
+        heading: 'Entrada destacada',
+        text: 'Marca una entrada como "Destacado" en el panel lateral. La entrada destacada aparece en formato grande (hero) al inicio de la página del blog, con mayor visibilidad que las tarjetas normales.',
+      },
+      {
+        heading: 'Imagen de portada',
+        text: 'Pega la URL de una imagen para usarla como portada. Se recomienda usar imágenes del módulo de Medios para consistencia. La imagen aparece tanto en la tarjeta del listado como en el encabezado del artículo.',
+      },
+      {
+        heading: 'Categoría, etiquetas y autor',
+        text: 'Asigna una categoría del desplegable (Cuidado de la piel, Maquillaje, Tutoriales, Lifestyle, Novedades) para que los visitantes puedan filtrar. Agrega etiquetas separadas por coma y el nombre del autor del artículo.',
+      },
+      {
+        heading: 'Tiempo de lectura',
+        text: 'Se calcula automáticamente a partir de las palabras del contenido (~200 palabras/minuto). Puedes sobreescribir el valor manualmente en el campo "Tiempo de lectura (min)".',
+      },
+      {
+        heading: 'SEO por artículo',
+        text: 'Cada entrada tiene su propio meta título (máx. 60 caracteres) y meta descripción (máx. 160 caracteres). Si los dejas vacíos, se usan el título y extracto del artículo.',
+      },
+      {
+        heading: 'Artículos relacionados',
+        text: 'Al final de cada artículo el sitio muestra automáticamente hasta 3 entradas publicadas de la misma categoría para aumentar el tiempo en la página.',
+      },
+    ],
+  },
+
+  '/admin/blog/nuevo': {
+    title: 'Nueva entrada de blog',
+    icon: '📝',
+    intro: 'Estás creando una nueva entrada. Rellena el título, el contenido en Markdown y configura las opciones del panel lateral antes de publicar o guardar como borrador.',
+    items: [
+      {
+        heading: 'Guardar vs Publicar',
+        text: '"Guardar borrador" guarda el artículo sin hacerlo público. "Publicar" lo hace visible en /blog inmediatamente y registra la fecha de publicación.',
+      },
+      {
+        heading: 'Sintaxis Markdown rápida',
+        text: '## Subtítulo · ### Sección · **negrita** · *cursiva* · - lista · > cita · --- separador · [link](url)',
       },
     ],
   },

@@ -42,8 +42,16 @@ export const inquiryService = {
     return updateDoc(doc(db, COL, id), { read: true })
   },
 
+  async markUnread(id) {
+    return updateDoc(doc(db, COL, id), { read: false })
+  },
+
   async setStatus(id, status) {
     return updateDoc(doc(db, COL, id), { status, read: true })
+  },
+
+  async saveNotes(id, notes) {
+    return updateDoc(doc(db, COL, id), { notes })
   },
 
   async delete(id) {
